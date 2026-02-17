@@ -39,14 +39,16 @@ public class Clock extends StackPane {
     }
 
     private void updateFont() {
+        // we have 5 characters, each of them with 3x5 dots
+        // we but have a dot between chars
+        // -> display ration is 17:5
         int dotSize;
-        // we have 5 characters, each of them with 3x5 dots -> display ration is 15:5
-        if (getWidth() / getHeight() > 15.0 / 5.0) {
+        if (getWidth() / getHeight() > 17.0 / 5.0) {
             dotSize = (int) (getHeight() / 5.0);
         } else {
-            dotSize = (int) (getWidth() / 15.0);
+            dotSize = (int) (getWidth() / 17.0);
         }
-        this.font = Font.create(Color.WHITE, dotSize, 8);
+        this.font = Font.create(Color.WHITE, dotSize);
     }
 
     private void refresh() {

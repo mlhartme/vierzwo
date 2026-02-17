@@ -81,8 +81,8 @@ public class Font {
             . . .
             """;
 
-    public static Font create(Color color, int dotWidth, int charSpace) {
-        Font font = new Font(color, dotWidth, charSpace);
+    public static Font create(Color color, int dotSize) {
+        Font font = new Font(color, dotSize, dotSize / 2);
         font.add(':', COLON);
         for (int i = 0; i < DIGITS.length; i++) {
             font.add((char) ('0' + i), DIGITS[i]);
@@ -94,6 +94,7 @@ public class Font {
     private final Color color;
     private final int dotWidth;
     private final int dotSpace;
+    private final int dotArc;
     private final int charSpace;
 
     public Font(Color color, int dotWidth, int charSpace) {
@@ -101,6 +102,7 @@ public class Font {
         this.maps = new HashMap<>();
         this.dotWidth = dotWidth;
         this.dotSpace = Math.max(1, dotWidth / 32);
+        this.dotArc = Math.max(1, dotWidth / 6);
         this.charSpace = charSpace;
     }
 
@@ -160,8 +162,8 @@ public class Font {
                     rect.setStrokeWidth(dotSpace);
                     rect.setStrokeType(StrokeType.INSIDE);
                     rect.setStroke(Color.BLACK);
-                    rect.setArcWidth(5);
-                    rect.setArcHeight(5);
+                    rect.setArcWidth(dotArc);
+                    rect.setArcHeight(dotArc);
                     dest.getChildren().add(rect);
                 }
             }
