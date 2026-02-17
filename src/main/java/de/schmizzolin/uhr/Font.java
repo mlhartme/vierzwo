@@ -1,5 +1,6 @@
 package de.schmizzolin.uhr;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -133,6 +134,7 @@ public class Font {
 
     public HBox render(String str) {
         HBox characters = new HBox(charSpace);
+        characters.setAlignment(Pos.CENTER_LEFT);
         for (int i = 0; i < str.length(); i++) {
             var c = render(str.charAt(i));
             characters.getChildren().add(c);
