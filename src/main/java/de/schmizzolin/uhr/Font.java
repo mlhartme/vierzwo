@@ -83,14 +83,14 @@ public class Font {
 
     public static Font create(Color color, int dotSize) {
         Font font = new Font(color, dotSize, dotSize / 2);
-        font.add(':', COLON);
+        font.add(':', Matrix.create(COLON));
         for (int i = 0; i < DIGITS.length; i++) {
-            font.add((char) ('0' + i), DIGITS[i]);
+            font.add((char) ('0' + i), Matrix.create(DIGITS[i]));
         }
         return font;
     }
 
-    private final Map<Character, boolean[][]> maps; // value[y][x]
+    private final Map<Character, Matrix> maps; // value[y][x]
     private final Color color;
     private final int dotWidth;
     private final int dotSpace;
@@ -106,36 +106,11 @@ public class Font {
         this.charSpace = charSpace;
     }
 
-    public void add(char character, String matrix) {
-        maps.put(character, check(matrix));
+    public void add(char character, Matrix matrix) {
+        maps.put(character, matrix);
     }
 
     private static final int HEIGHT = 5;
-
-    private static boolean[][] check(String matrix) {
-        String[] lines = matrix.split("\n");
-        boolean[][] result = new boolean[lines.length][];
-        if (lines.length != HEIGHT) {
-            throw new IllegalArgumentException("height: " + lines.length);
-        }
-        for (int y = 0; y < lines.length; y++) {
-            var line = lines[y];
-            result[y] = new boolean[3];
-            for (int twoX = 0; twoX < line.length(); twoX += 2) {
-                var c = line.charAt(twoX);
-                if (c != 'x' && c != ' ' && c != '.') {
-                    throw new IllegalArgumentException("invalid char: " + c);
-                }
-                result[y][twoX / 2] = (c =='x');
-                if (twoX + 1 < line.length()) {
-                    if (line.charAt(twoX + 1) != ' ') {
-                        throw new IllegalArgumentException("missing space at " + (twoX + 1));
-                    }
-                }
-            }
-        }
-        return result;
-    }
 
     public Group render(String str) {
         Group result = new Group();
@@ -146,13 +121,13 @@ public class Font {
     }
 
     private void render(Group dest, int ofs, char character) {
-        boolean[][] matrix = maps.get(character);
+        Matrix matrix = maps.get(character);
         if (matrix == null) {
             throw new IllegalArgumentException("unknown character: " + character);
         }
-        for (int y = 0; y < matrix.length; y++) {
-            for (int x = 0; x < matrix[y].length; x++) {
-                if (matrix[y][x]) {
+        for (int y = 0; y < matrix.height(); y++) {
+            for (int x = 0; x < matrix.width(); x++) {
+                if (matrix.get(x, y)) {
                     Rectangle rect = new Rectangle(ofs + x * dotWidth, y * dotWidth, dotWidth, dotWidth);
                     rect.setFill(color);
                     rect.setStrokeWidth(dotSpace);
