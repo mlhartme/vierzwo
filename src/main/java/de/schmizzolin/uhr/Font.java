@@ -1,13 +1,7 @@
 package de.schmizzolin.uhr;
 
-import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
@@ -121,15 +115,25 @@ public class Font {
         if (lines.length != HEIGHT) {
             throw new IllegalArgumentException("height: " + lines.length);
         }
+        StringBuilder result = new StringBuilder(matrix.length());
         for (String line : lines) {
+            if (!result.isEmpty()) {
+                result.append('\n');
+            }
             for (int i = 0; i < line.length(); i += 2) {
                 var c = line.charAt(i);
                 if (c != 'x' && c != ' ' && c != '.') {
                     throw new IllegalArgumentException("invalid char: " + c);
                 }
+                result.append(c);
+                if (i + 1 < line.length()) {
+                    if (line.charAt(i + 1) != ' ') {
+                        throw new IllegalArgumentException("missing space at " + (i + 1));
+                    }
+                }
             }
         }
-        return matrix;
+        return result.toString();
     }
 
     public Group render(String str) {
@@ -148,9 +152,8 @@ public class Font {
         String[] lines = matrix.split("\n");
         for (int y = 0; y < lines.length; y++) {
             var line = lines[y];
-            for (int i = 0; i < line.length(); i += 2) {
-                var x = i / 2;
-                var c = line.charAt(i);
+            for (int x = 0; x < line.length(); x++) {
+                var c = line.charAt(x);
                 if (c == 'x') {
                     Rectangle rect = new Rectangle(ofs + x * dotWidth, y * dotWidth, dotWidth, dotWidth);
                     rect.setFill(color);
