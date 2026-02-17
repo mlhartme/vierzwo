@@ -1,11 +1,14 @@
 package de.schmizzolin.uhr;
 
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +22,10 @@ public class Font {
             x   x
             x x x
             """, """
-              x .
-            x x .
-              x .
-              x .
+              x
+            x x
+              x
+              x
             x x x
             """, """
             x x x
@@ -44,22 +47,22 @@ public class Font {
                 x
             """, """
             x x x
-            x . .
+            x
             x x x
                 x
             x x x
             """, """
             x x x
-            x . .
+            x
             x x x
             x   x
             x x x
             """, """
             x x x
                 x
-              x .
-              x .
-              x .
+              x
+              x
+              x
             """, """
             x x x
             x   x
@@ -102,7 +105,7 @@ public class Font {
         this.color = color;
         this.maps = new HashMap<>();
         this.dotWidth = dotWidth;
-        this.dotSpace = Math.max(1, dotWidth / 40);
+        this.dotSpace = Math.max(1, dotWidth / 32);
         this.charSpace = charSpace;
     }
 
@@ -111,7 +114,6 @@ public class Font {
     }
 
     private static final int HEIGHT = 5;
-    private static final int WIDTH = 3;
 
     private static String check(String matrix) {
         String[] lines = matrix.split("\n");
@@ -119,9 +121,6 @@ public class Font {
             throw new IllegalArgumentException("height: " + lines.length);
         }
         for (String line : lines) {
-            if (line.length() != WIDTH * 2 - 1) {
-                throw new IllegalArgumentException("width: " + line.length());
-            }
             for (int i = 0; i < line.length(); i += 2) {
                 var c = line.charAt(i);
                 if (c != 'x' && c != ' ' && c != '.') {
@@ -132,41 +131,42 @@ public class Font {
         return matrix;
     }
 
-    public Pane render(String str) {
+    public HBox render(String str) {
         HBox characters = new HBox(charSpace);
         for (int i = 0; i < str.length(); i++) {
-            characters.getChildren().add(render(str.charAt(i)));
+            var c = render(str.charAt(i));
+            characters.getChildren().add(c);
         }
         return characters;
     }
 
-    private Pane render(char character) {
-        VBox vbox = new VBox();
+    private Group render(char character) {
+        var result = new Group();
         String matrix = maps.get(character);
         if (matrix == null) {
             throw new IllegalArgumentException("unknown character: " + character);
         }
         String[] lines = matrix.split("\n");
-        for (String line : lines) {
-            HBox hbox = new HBox();
+        System.out.println("char: " + character + ": ");
+        for (int y = 0; y < lines.length; y++) {
+            var line = lines[y];
             for (int i = 0; i < line.length(); i += 2) {
+                var x = i / 2;
                 var c = line.charAt(i);
                 if (c == 'x') {
-                    Rectangle rect = new Rectangle(dotWidth, dotWidth, color);
+                    System.out.print("(" + x + "," + y + ") ");
+                    Rectangle rect = new Rectangle(x * dotWidth, y * dotWidth, dotWidth, dotWidth);
+                    rect.setFill(color);
                     rect.setStrokeWidth(dotSpace);
-                    rect.setStroke(Color.TRANSPARENT);
+                    rect.setStrokeType(StrokeType.INSIDE);
+                    rect.setStroke(Color.BLACK);
                     rect.setArcWidth(5);
                     rect.setArcHeight(5);
-                    hbox.getChildren().add(rect);
-                } else if (c == ' ' || c == '.') {
-                    Rectangle rect = new Rectangle(dotWidth, dotWidth, Color.TRANSPARENT);
-                    rect.setStrokeWidth(dotSpace);
-                    rect.setStroke(Color.TRANSPARENT);
-                    hbox.getChildren().add(rect);
+                    result.getChildren().add(rect);
                 }
             }
-            vbox.getChildren().add(hbox);
         }
-        return vbox;
+        System.out.println();
+        return result;
     }
 }
