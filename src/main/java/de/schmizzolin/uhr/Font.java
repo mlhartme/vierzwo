@@ -132,43 +132,36 @@ public class Font {
         return matrix;
     }
 
-    public HBox render(String str) {
-        HBox characters = new HBox(charSpace);
-        characters.setAlignment(Pos.CENTER_LEFT);
+    public Group render(String str) {
+        Group result = new Group();
         for (int i = 0; i < str.length(); i++) {
-            var c = render(str.charAt(i));
-            characters.getChildren().add(c);
+            render(result, i * 3 * dotWidth + charSpace * i, str.charAt(i));
         }
-        return characters;
+        return result;
     }
 
-    private Group render(char character) {
-        var result = new Group();
+    private void render(Group dest, int ofs, char character) {
         String matrix = maps.get(character);
         if (matrix == null) {
             throw new IllegalArgumentException("unknown character: " + character);
         }
         String[] lines = matrix.split("\n");
-        System.out.println("char: " + character + ": ");
         for (int y = 0; y < lines.length; y++) {
             var line = lines[y];
             for (int i = 0; i < line.length(); i += 2) {
                 var x = i / 2;
                 var c = line.charAt(i);
                 if (c == 'x') {
-                    System.out.print("(" + x + "," + y + ") ");
-                    Rectangle rect = new Rectangle(x * dotWidth, y * dotWidth, dotWidth, dotWidth);
+                    Rectangle rect = new Rectangle(ofs + x * dotWidth, y * dotWidth, dotWidth, dotWidth);
                     rect.setFill(color);
                     rect.setStrokeWidth(dotSpace);
                     rect.setStrokeType(StrokeType.INSIDE);
                     rect.setStroke(Color.BLACK);
                     rect.setArcWidth(5);
                     rect.setArcHeight(5);
-                    result.getChildren().add(rect);
+                    dest.getChildren().add(rect);
                 }
             }
         }
-        System.out.println();
-        return result;
     }
 }
