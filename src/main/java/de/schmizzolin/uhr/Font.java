@@ -8,7 +8,7 @@ import javafx.scene.shape.StrokeType;
 import java.util.HashMap;
 import java.util.Map;
 
-/* Charcters made from 3x5 dots */
+/* Characters made from 3x5 dots */
 public class Font {
     private static final String[] DIGITS = { """
             x x x
@@ -90,7 +90,7 @@ public class Font {
         return font;
     }
 
-    private final Map<Character, String> maps;
+    private final Map<Character, boolean[][]> maps; // value[y][x]
     private final Color color;
     private final int dotWidth;
     private final int dotSpace;
@@ -112,30 +112,29 @@ public class Font {
 
     private static final int HEIGHT = 5;
 
-    private static String check(String matrix) {
+    private static boolean[][] check(String matrix) {
         String[] lines = matrix.split("\n");
+        boolean[][] result = new boolean[lines.length][];
         if (lines.length != HEIGHT) {
             throw new IllegalArgumentException("height: " + lines.length);
         }
-        StringBuilder result = new StringBuilder(matrix.length());
-        for (String line : lines) {
-            if (!result.isEmpty()) {
-                result.append('\n');
-            }
-            for (int i = 0; i < line.length(); i += 2) {
-                var c = line.charAt(i);
+        for (int y = 0; y < lines.length; y++) {
+            var line = lines[y];
+            result[y] = new boolean[3];
+            for (int twoX = 0; twoX < line.length(); twoX += 2) {
+                var c = line.charAt(twoX);
                 if (c != 'x' && c != ' ' && c != '.') {
                     throw new IllegalArgumentException("invalid char: " + c);
                 }
-                result.append(c);
-                if (i + 1 < line.length()) {
-                    if (line.charAt(i + 1) != ' ') {
-                        throw new IllegalArgumentException("missing space at " + (i + 1));
+                result[y][twoX / 2] = (c =='x');
+                if (twoX + 1 < line.length()) {
+                    if (line.charAt(twoX + 1) != ' ') {
+                        throw new IllegalArgumentException("missing space at " + (twoX + 1));
                     }
                 }
             }
         }
-        return result.toString();
+        return result;
     }
 
     public Group render(String str) {
@@ -147,16 +146,13 @@ public class Font {
     }
 
     private void render(Group dest, int ofs, char character) {
-        String matrix = maps.get(character);
+        boolean[][] matrix = maps.get(character);
         if (matrix == null) {
             throw new IllegalArgumentException("unknown character: " + character);
         }
-        String[] lines = matrix.split("\n");
-        for (int y = 0; y < lines.length; y++) {
-            var line = lines[y];
-            for (int x = 0; x < line.length(); x++) {
-                var c = line.charAt(x);
-                if (c == 'x') {
+        for (int y = 0; y < matrix.length; y++) {
+            for (int x = 0; x < matrix[y].length; x++) {
+                if (matrix[y][x]) {
                     Rectangle rect = new Rectangle(ofs + x * dotWidth, y * dotWidth, dotWidth, dotWidth);
                     rect.setFill(color);
                     rect.setStrokeWidth(dotSpace);
