@@ -37,14 +37,23 @@ public class Main extends Application {
 
         var fullscreen = new MenuItem("Fullscreen");
         fullscreen.setOnAction(e -> {
-            Stage s = (Stage) scene.getWindow();
-            s.setFullScreen(!s.isFullScreen());
+            switchFullScreen(scene);
+        });
+        scene.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                switchFullScreen(scene);
+            }
         });
 
         var quit = new MenuItem("Quit");
         quit.setOnAction(e -> Platform.exit());
         menu.getItems().addAll(title, new SeparatorMenuItem(), fullscreen, quit);
-        scene.setOnMouseClicked(e -> menu.show(scene.getRoot(), e.getScreenX(), e.getScreenY()));
+        scene.setOnContextMenuRequested(e -> menu.show(scene.getRoot(), e.getScreenX(), e.getScreenY()));
+    }
+
+    private void switchFullScreen(Scene scene) {
+        Stage s = (Stage) scene.getWindow();
+        s.setFullScreen(!s.isFullScreen());
     }
 
     private void movable(Scene scene) {

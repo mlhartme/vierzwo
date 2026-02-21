@@ -24,9 +24,27 @@ and from IntelliJ IDEA with VM options
 
 ## TODO
 
-* extract base class from clock that displays text
-* improve resize: make Clock a regular pain that craws children?
-* resize 
+* wether
+  * https://dwd.api.bund.dev
+  * https://www.dwd.de/DE/leistungen/klimadatendeutschland/stationsuebersicht.html
+  *  curl -X 'GET' \
+     'https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=10501,G3' \
+     -H 'accept: application/json' | jq > aachen.json
+  * unter "days"
+    * temperaturen in 1/10 grad
+    * precipitation: nederschlag in 1/10 mm
+    * sunshine: in 1/10 minuten -> dh /600 ergibt stunden
+    * icon
+      * https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes
+      * https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
 * beautify dots
 * animate
 * fancy name
+  * PiMessage 
+  * Glance
+  * Summary 
+  * Zusammenfassung
+  * tldr
+  * extract
+  * Zweiundvierzig
+  * Vierzwo
