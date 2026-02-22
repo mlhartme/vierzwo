@@ -36,7 +36,7 @@ public class Text extends StackPane {
         this.text = text;
     }
 
-    private void updateSize() {
+    protected void updateSize() {
         double xDots = font.width(text);
         double yDots = font.height();
         int dotSize;

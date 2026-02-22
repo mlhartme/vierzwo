@@ -8,10 +8,10 @@ import javafx.scene.shape.StrokeType;
 import java.util.HashMap;
 import java.util.Map;
 
+/** Variable width font with fixed height. Each character is defined as a matrix of dots. */
 public class Font {
     private static final int HEIGHT = 5;
 
-    // variable width, height is fixed
     private static final String[] DIGITS = { """
             x x x
             x   x
