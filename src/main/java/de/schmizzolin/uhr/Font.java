@@ -25,8 +25,8 @@ public class Font {
             """, """
             x x x
                 x
-              x .
-            x . .
+              x
+            x
             x x x
             """, """
             x x x
@@ -84,8 +84,8 @@ public class Font {
             . . .
             . x .
             . . .
-            . x .
             . . .
+            . x .
             """;
     private static final String UP = """
               x

@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        StackPane clock = new Wetter();
+        StackPane clock = new Clock();
 
         Scene scene = new Scene(clock, 360, 120);
         stage.setTitle("Uhr");
