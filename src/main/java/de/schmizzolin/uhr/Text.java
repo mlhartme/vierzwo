@@ -14,8 +14,8 @@ public class Text extends StackPane {
     private String text;
 
     public Text() {
+        this.font = Font.create(Color.WHITE);
         this.text = ":::";
-        updateFont();
         setAlignment(Pos.CENTER);
         setStyle("-fx-background-color: black;");
         setBorder(new Border(new BorderStroke(
@@ -24,12 +24,11 @@ public class Text extends StackPane {
                 null,
                 new BorderWidths(10)
         )));
-
         this.widthProperty().addListener((obs, oldVal, newVal) -> {
-            updateFont();
+            updateSize();
         });
         this.heightProperty().addListener((obs, oldVal, newVal) -> {
-            updateFont();
+            updateSize();
         });
     }
 
@@ -37,18 +36,19 @@ public class Text extends StackPane {
         this.text = text;
     }
 
-    private void updateFont() {
+    private void updateSize() {
         // we have 5 characters, each of them with 3x5 dots
         // we but have a dot between chars
         // -> display ration is 17:5
-        double xDots = (text.length() * 3.5) - 0.5;
+
+        double xDots = font.width(text);
+        double yDots = font.height();
         int dotSize;
-        if (getWidth() / getHeight() > xDots / 5.0) {
-            dotSize = (int) (getHeight() / 5.0);
+        if (getWidth() / getHeight() > xDots / yDots) {
+            dotSize = (int) (getHeight() / yDots);
         } else {
             dotSize = (int) (getWidth() / xDots);
         }
-        this.font = Font.create(Color.WHITE, dotSize);
-        getChildren().setAll(font.render(text));
+        getChildren().setAll(font.render(text, dotSize));
     }
 }

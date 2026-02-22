@@ -1,10 +1,6 @@
 package de.schmizzolin.uhr;
 
 public class Matrix {
-    public static Matrix create(String matrix) {
-        return create(3, 5, matrix);
-    }
-
     public static Matrix create(int width, int height, String matrix) {
         String[] lines = matrix.split("\n");
         boolean[][] result = new boolean[lines.length][];

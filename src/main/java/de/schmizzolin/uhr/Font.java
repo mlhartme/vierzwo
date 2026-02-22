@@ -81,11 +81,11 @@ public class Font {
             . . .
             """;
     private static final String COLON = """
-            . . .
-            . x .
-            . . .
-            . . .
-            . x .
+            .
+            x
+            .
+            .
+            x
             """;
     private static final String UP = """
               x
@@ -103,10 +103,10 @@ public class Font {
               x
             """;
 
-    public static Font create(Color color, int dotSize) {
-        Font font = new Font(color, dotSize, dotSize / 2);
+    public static Font create(Color color) {
+        Font font = new Font(color);
         font.add(' ', SPACE);
-        font.add(':', COLON);
+        font.add(':', COLON, 1);
         font.add('^', UP);
         font.add('v', DOWN);
         for (int i = 0; i < DIGITS.length; i++) {
@@ -117,41 +117,56 @@ public class Font {
 
     private final Map<Character, Matrix> dots; // value[y][x]
     private final Color color;
-    private final int dotWidth;
-    private final int dotSpace;
-    private final int dotArc;
-    private final int charSpace;
 
-    public Font(Color color, int dotWidth, int charSpace) {
+    public Font(Color color) {
         this.color = color;
         this.dots = new HashMap<>();
-        this.dotWidth = dotWidth;
-        this.dotSpace = Math.max(1, dotWidth / 32);
-        this.dotArc = Math.max(1, dotWidth / 6);
-        this.charSpace = charSpace;
     }
 
     public void add(char character, String matrix) {
-        dots.put(character, Matrix.create(matrix));
+        add(character, matrix, 3);
+    }
+
+    public void add(char character, String matrix, int width) {
+        dots.put(character, Matrix.create(width, 5, matrix));
     }
 
     public void add(char character, Matrix matrix) {
         dots.put(character, matrix);
     }
 
-    public Group render(String str) {
-        Group result = new Group();
+    /** @return number of dots */
+    public int width(String str) {
+        int result = 0;
         for (int i = 0; i < str.length(); i++) {
-            render(result, i * 3 * dotWidth + charSpace * i, str.charAt(i));
+            result += dots.get(str.charAt(i)).width();
+        }
+        return result + (str.length() - 1);
+    }
+
+    public int height() {
+        return 5;
+    }
+
+    public Group render(String str, int dotWidth) {
+        var result = new Group();
+        var ofs = 0;
+        for (int i = 0; i < str.length(); i++) {
+            var character = str.charAt(i);
+            var matrix = dots.get(character);
+            if (matrix == null) {
+                throw new IllegalArgumentException("unknown character: " + character);
+            }
+            render(result, ofs, dotWidth, matrix);
+            ofs += (matrix.width() + 1) * dotWidth;
         }
         return result;
     }
 
-    private void render(Group dest, int ofs, char character) {
-        Matrix matrix = dots.get(character);
-        if (matrix == null) {
-            throw new IllegalArgumentException("unknown character: " + character);
-        }
+    private void render(Group dest, int ofs, int dotWidth, Matrix matrix) {
+        var dotSpace = Math.max(1, dotWidth / 32);
+        var dotArc = Math.max(1, dotWidth / 6);
+
         for (int y = 0; y < matrix.height(); y++) {
             for (int x = 0; x < matrix.width(); x++) {
                 if (matrix.get(x, y)) {
