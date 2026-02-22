@@ -8,8 +8,10 @@ import javafx.scene.shape.StrokeType;
 import java.util.HashMap;
 import java.util.Map;
 
-/* Characters made from 3x5 dots */
 public class Font {
+    private static final int HEIGHT = 5;
+
+    // variable width, height is fixed
     private static final String[] DIGITS = { """
             x x x
             x   x
@@ -128,7 +130,7 @@ public class Font {
     }
 
     public void add(char character, String matrix, int width) {
-        dots.put(character, Matrix.create(width, 5, matrix));
+        dots.put(character, Matrix.create(width, HEIGHT, matrix));
     }
 
     public void add(char character, Matrix matrix) {
@@ -145,7 +147,7 @@ public class Font {
     }
 
     public int height() {
-        return 5;
+        return HEIGHT;
     }
 
     public Group render(String str, int dotWidth) {

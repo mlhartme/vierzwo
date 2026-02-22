@@ -37,10 +37,6 @@ public class Text extends StackPane {
     }
 
     private void updateSize() {
-        // we have 5 characters, each of them with 3x5 dots
-        // we but have a dot between chars
-        // -> display ration is 17:5
-
         double xDots = font.width(text);
         double yDots = font.height();
         int dotSize;
