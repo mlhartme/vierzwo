@@ -10,10 +10,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
     @Override
-    public void start(Stage stage) {
-        StackPane clock = new Clock();
+    public void start(Stage stage) throws IOException, InterruptedException {
+        StackPane clock = new Wetter();
 
         Scene scene = new Scene(clock, 360, 120);
         stage.setTitle("Uhr");

@@ -9,8 +9,6 @@ import java.util.Locale;
 
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Clock extends Text {
-    private Font font;
-
     public Clock() {
         super();
 

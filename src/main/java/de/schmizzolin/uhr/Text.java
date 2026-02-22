@@ -1,7 +1,5 @@
 package de.schmizzolin.uhr;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -9,10 +7,6 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
-
-import java.time.LocalTime;
-import java.util.Locale;
 
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Text extends StackPane {
