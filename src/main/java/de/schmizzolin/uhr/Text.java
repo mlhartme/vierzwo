@@ -41,11 +41,12 @@ public class Text extends StackPane {
         // we have 5 characters, each of them with 3x5 dots
         // we but have a dot between chars
         // -> display ration is 17:5
+        double xDots = (text.length() * 3.5) - 0.5;
         int dotSize;
-        if (getWidth() / getHeight() > 17.0 / 5.0) {
+        if (getWidth() / getHeight() > xDots / 5.0) {
             dotSize = (int) (getHeight() / 5.0);
         } else {
-            dotSize = (int) (getWidth() / 17.0);
+            dotSize = (int) (getWidth() / xDots);
         }
         this.font = Font.create(Color.WHITE, dotSize);
         getChildren().setAll(font.render(text));
