@@ -14,7 +14,7 @@ public class Wetter extends Text {
         super();
 
         var today = new Dwd().stationOverviewExtended();
-        setText(round(today.temperaturMin()) + ":" + round(today.temperatureMax()));
+        setText("v" + round(today.temperaturMin()) + " " + round(today.temperatureMax()) + "^");
     }
 
     private static int round(int temp) {

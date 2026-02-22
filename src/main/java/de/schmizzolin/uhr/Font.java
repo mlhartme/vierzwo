@@ -73,6 +73,13 @@ public class Font {
             """
     };
 
+    private static final String SPACE = """
+            . . .
+            . . .
+            . . .
+            . . .
+            . . .
+            """;
     private static final String COLON = """
             . . .
             . x .
@@ -80,10 +87,28 @@ public class Font {
             . x .
             . . .
             """;
+    private static final String UP = """
+              x
+            x x x
+              x
+              x
+              .
+            """;
+
+    private static final String DOWN = """
+              .
+              x
+              x
+            x x x
+              x
+            """;
 
     public static Font create(Color color, int dotSize) {
         Font font = new Font(color, dotSize, dotSize / 2);
+        font.add(' ', SPACE);
         font.add(':', COLON);
+        font.add('^', UP);
+        font.add('v', DOWN);
         for (int i = 0; i < DIGITS.length; i++) {
             font.add((char) ('0' + i), DIGITS[i]);
         }
