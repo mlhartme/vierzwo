@@ -126,11 +126,11 @@ public class Font {
             .
             """;
     private static final String UP = """
+              .
               x
             x x x
               x
               x
-              .
               .
               .
               .
@@ -139,20 +139,20 @@ public class Font {
     private static final String DOWN = """
               .
               .
-              .
-              .
               x
               x
             x x x
               x
+              .
+              .
             """;
 
-    public static Font create(Color color) {
-        Font font = new Font(color);
+    public static Font create() {
+        Font font = new Font();
         font.add(' ', SPACE);
-        font.add(':', COLON, 1);
-        font.add('^', UP);
-        font.add('v', DOWN);
+        font.add(':', COLON, 1, Color.WHITE);
+        font.add('^', UP, 3, Color.LIGHTPINK);
+        font.add('v', DOWN, 3, Color.LIGHTBLUE);
         for (int i = 0; i < DIGITS.length; i++) {
             font.add((char) ('0' + i), DIGITS[i]);
         }
@@ -160,19 +160,17 @@ public class Font {
     }
 
     private final Map<Character, Matrix> dots; // value[y][x]
-    private final Color color;
 
-    public Font(Color color) {
-        this.color = color;
+    public Font() {
         this.dots = new HashMap<>();
     }
 
     public void add(char character, String matrix) {
-        add(character, matrix, 3);
+        add(character, matrix, 3, Color.WHITE);
     }
 
-    public void add(char character, String matrix, int width) {
-        dots.put(character, Matrix.create(width, HEIGHT, matrix));
+    public void add(char character, String matrix, int width, Color color) {
+        dots.put(character, Matrix.create(width, HEIGHT, matrix, color));
     }
 
     public void add(char character, Matrix matrix) {
@@ -222,7 +220,8 @@ public class Font {
 
         for (int y = 0; y < matrix.height(); y++) {
             for (int x = 0; x < matrix.width(); x++) {
-                if (matrix.get(x, y)) {
+                var color = matrix.get(x, y);
+                if (color != null) {
                     Rectangle rect = new Rectangle(xOfs + x * dotWidth, yOfs + y * dotWidth, dotWidth, dotWidth);
                     rect.setFill(color);
                     rect.setStrokeWidth(dotSpace);

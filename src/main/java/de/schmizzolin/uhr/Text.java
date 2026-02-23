@@ -14,7 +14,7 @@ public class Text extends StackPane {
     private String[] text;
 
     public Text() {
-        this.font = Font.create(Color.WHITE);
+        this.font = Font.create();
         this.text = new String[0];
         setAlignment(Pos.CENTER);
         setStyle("-fx-background-color: black;");
