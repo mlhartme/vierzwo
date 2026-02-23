@@ -3,7 +3,7 @@ package de.schmizzolin.uhr;
 import javafx.scene.paint.Color;
 
 public class Matrix {
-    public static Matrix create(int width, int height, String matrix, Color color) {
+    public static Matrix create(int width, int height, String matrix, Color color, Color color2) {
         String[] lines = matrix.split("\n");
         Color[][] result = new Color[lines.length][];
         if (lines.length != height) {
@@ -14,10 +14,14 @@ public class Matrix {
             result[y] = new Color[width];
             for (int twoX = 0; twoX < line.length(); twoX += 2) {
                 var c = line.charAt(twoX);
-                if (c != 'x' && c != ' ' && c != '.') {
+                if (c != 'x' && c != '+' && c != ' ' && c != '.') {
                     throw new IllegalArgumentException("invalid char: " + c);
                 }
-                result[y][twoX / 2] = (c =='x') ? color : null;
+                result[y][twoX / 2] = switch (c) {
+                    case 'x' -> color;
+                    case '+' -> color2;
+                    default -> null;
+                };
                 if (twoX + 1 < line.length()) {
                     if (line.charAt(twoX + 1) != ' ') {
                         throw new IllegalArgumentException("missing space at " + (twoX + 1));

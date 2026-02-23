@@ -157,6 +157,16 @@ public class Font {
                 x   x
                 x   x
             """;
+    private static final String SUNNY_WITH_CLOUD = """
+                x   x
+                x   x
+            x x x x x x x
+                x x x
+                x x x
+            x x x x + +   + +
+                x + + + + + + +
+                x + + + + + + +
+            """;
     public static Font create() {
         Font font = new Font();
         font.add(' ', SPACE);
@@ -164,6 +174,7 @@ public class Font {
         font.add('^', UP, 3, Color.LIGHTPINK);
         font.add('v', DOWN, 3, Color.LIGHTBLUE);
         font.add('o', SUNNY, 7, Color.YELLOW);
+        font.add('w', SUNNY_WITH_CLOUD, 10, Color.YELLOW, Color.GRAY);
         for (int i = 0; i < DIGITS.length; i++) {
             font.add((char) ('0' + i), DIGITS[i]);
         }
@@ -181,7 +192,10 @@ public class Font {
     }
 
     public void add(char character, String matrix, int width, Color color) {
-        dots.put(character, Matrix.create(width, HEIGHT, matrix, color));
+        add(character, matrix, width, color, color);
+    }
+    public void add(char character, String matrix, int width, Color color, Color color2) {
+        dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2));
     }
 
     public void add(char character, Matrix matrix) {
