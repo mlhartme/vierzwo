@@ -35,9 +35,6 @@ and from IntelliJ IDEA with VM options
     * temperaturen in 1/10 grad
     * precipitation: nederschlag in 1/10 mm
     * sunshine: in 1/10 minuten -> dh /600 ergibt stunden
-    * icon
-      * https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes
-      * https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
 * beautify dots
 * animate
 * fancy name

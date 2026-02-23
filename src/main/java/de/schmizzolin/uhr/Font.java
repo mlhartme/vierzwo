@@ -167,14 +167,51 @@ public class Font {
                 x + + + + + + +
                 x + + + + + + +
             """;
+    private static final String SUNNY_WITH_MORE_CLOUD = """
+         .           +   +
+         .           +   +
+         .       + + + + + + +
+           x x x   x x x +
+         x x x x x x x x x + +
+         x x x x x x x x x
+         x x x x x x x x x
+         .
+         """;
+    private static final String CLOUDY = """
+         .
+         .
+         .
+           x x x   x x
+         x x x x x + + x + +
+         x x x x + + + + + + +
+         x x x x + + + + + + +
+         .
+         """;
+    private static final String FOG = """
+         .
+         x   x   x   x
+           x   x   x
+
+         x   x   x   x
+           x   x   x
+         .
+         .
+         """;
     public static Font create() {
         Font font = new Font();
         font.add(' ', SPACE);
         font.add(':', COLON, 1, Color.WHITE);
         font.add('^', UP, 3, Color.LIGHTPINK);
         font.add('v', DOWN, 3, Color.LIGHTBLUE);
+
+        // iday pictogramm
+        // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
         font.add('o', SUNNY, 7, Color.YELLOW);
         font.add('w', SUNNY_WITH_CLOUD, 10, Color.YELLOW, Color.GRAY);
+        font.add('W', SUNNY_WITH_MORE_CLOUD, 11, Color.DARKGRAY, Color.YELLOW);
+        font.add('c', CLOUDY, 11, Color.DARKGRAY, Color.GRAY);
+        font.add('f', FOG, 7, Color.LIGHTGRAY);
+
         for (int i = 0; i < DIGITS.length; i++) {
             font.add((char) ('0' + i), DIGITS[i]);
         }
