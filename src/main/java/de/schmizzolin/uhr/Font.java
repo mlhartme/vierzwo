@@ -147,12 +147,23 @@ public class Font {
               .
             """;
 
+    private static final String SUNNY = """
+                x   x
+                x   x
+            x x x x x x x
+                x x x
+                x x x
+            x x x x x x x
+                x   x
+                x   x
+            """;
     public static Font create() {
         Font font = new Font();
         font.add(' ', SPACE);
         font.add(':', COLON, 1, Color.WHITE);
         font.add('^', UP, 3, Color.LIGHTPINK);
         font.add('v', DOWN, 3, Color.LIGHTBLUE);
+        font.add('o', SUNNY, 7, Color.YELLOW);
         for (int i = 0; i < DIGITS.length; i++) {
             font.add((char) ('0' + i), DIGITS[i]);
         }
