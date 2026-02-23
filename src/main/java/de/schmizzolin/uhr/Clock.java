@@ -31,7 +31,7 @@ public class Clock extends Text {
 
     private void updateTime() {
         LocalTime now = LocalTime.now();
-        String time = String.format(Locale.GERMAN, "%02d:%02d", now.getHour(), now.getMinute());
+        String time = String.format(Locale.GERMAN, " %02d:%02d", now.getHour(), now.getMinute());
         setText(time, temperature);
     }
 }

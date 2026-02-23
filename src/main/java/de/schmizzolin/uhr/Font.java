@@ -10,68 +10,98 @@ import java.util.Map;
 
 /** Variable width font with fixed height. Each character is defined as a matrix of dots. */
 public class Font {
-    private static final int HEIGHT = 5;
+    private static final int HEIGHT = 8;
 
     private static final String[] DIGITS = { """
+            .
             x x x
             x   x
             x   x
             x   x
             x x x
+            .
+            .
             """, """
+            .
               x
             x x
               x
               x
             x x x
+            .
+            .
             """, """
+            .
             x x x
                 x
               x
             x
             x x x
+            .
+            .
             """, """
+            .
             x x x
                 x
               x x
                 x
             x x x
+            .
+            .
             """, """
+            .
             x   x
             x   x
             x x x
                 x
                 x
+            .
+            .
             """, """
+            .
             x x x
             x
             x x x
                 x
             x x x
+            .
+            .
             """, """
+            .
             x x x
             x
             x x x
             x   x
             x x x
+            .
+            .
             """, """
+            .
             x x x
                 x
               x
               x
               x
+            .
+            .
             """, """
+            .
             x x x
             x   x
             x x x
             x   x
             x x x
+            .
+            .
             """, """
+            .
             x x x
             x   x
             x x x
                 x
             x x x
+            .
+            .
             """
     };
 
@@ -81,13 +111,19 @@ public class Font {
             . . .
             . . .
             . . .
+            . . .
+            . . .
+            . . .
             """;
     private static final String COLON = """
             .
+            .
             x
             .
             .
             x
+            .
+            .
             """;
     private static final String UP = """
               x
@@ -95,9 +131,15 @@ public class Font {
               x
               x
               .
+              .
+              .
+              .
             """;
 
     private static final String DOWN = """
+              .
+              .
+              .
               .
               x
               x
