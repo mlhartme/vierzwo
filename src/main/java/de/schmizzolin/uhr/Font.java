@@ -138,41 +138,50 @@ public class Font {
     }
 
     /** @return number of dots */
-    public int width(String str) {
-        int result = 0;
-        for (int i = 0; i < str.length(); i++) {
-            result += dots.get(str.charAt(i)).width();
-        }
-        return result + (str.length() - 1);
-    }
-
-    public int height() {
-        return HEIGHT;
-    }
-
-    public Group render(String str, int dotWidth) {
-        var result = new Group();
-        var ofs = 0;
-        for (int i = 0; i < str.length(); i++) {
-            var character = str.charAt(i);
-            var matrix = dots.get(character);
-            if (matrix == null) {
-                throw new IllegalArgumentException("unknown character: " + character);
+    public int width(String... text) {
+        var result = 0;
+        for (var str : text) {
+            var line = 0;
+            for (var i = 0; i < str.length(); i++) {
+                line += dots.get(str.charAt(i)).width();
             }
-            render(result, ofs, dotWidth, matrix);
-            ofs += (matrix.width() + 1) * dotWidth;
+            line += str.length() - 1;
+            result = Math.max(result, line);
         }
         return result;
     }
 
-    private void render(Group dest, int ofs, int dotWidth, Matrix matrix) {
+    public int height(String... text) {
+        return text.length * HEIGHT;
+    }
+
+    public Group render(int dotWidth, String... text) {
+        var result = new Group();
+        var yOfs = 0;
+        for (var str : text) {
+            var xOfs = 0;
+            for (int i = 0; i < str.length(); i++) {
+                var character = str.charAt(i);
+                var matrix = dots.get(character);
+                if (matrix == null) {
+                    throw new IllegalArgumentException("unknown character: " + character);
+                }
+                render(result, xOfs, yOfs, dotWidth, matrix);
+                xOfs += (matrix.width() + 1) * dotWidth;
+            }
+            yOfs += HEIGHT * dotWidth;
+        }
+        return result;
+    }
+
+    private void render(Group dest, int xOfs, int yOfs, int dotWidth, Matrix matrix) {
         var dotSpace = Math.max(1, dotWidth / 32);
         var dotArc = Math.max(1, dotWidth / 6);
 
         for (int y = 0; y < matrix.height(); y++) {
             for (int x = 0; x < matrix.width(); x++) {
                 if (matrix.get(x, y)) {
-                    Rectangle rect = new Rectangle(ofs + x * dotWidth, y * dotWidth, dotWidth, dotWidth);
+                    Rectangle rect = new Rectangle(xOfs + x * dotWidth, yOfs + y * dotWidth, dotWidth, dotWidth);
                     rect.setFill(color);
                     rect.setStrokeWidth(dotSpace);
                     rect.setStrokeType(StrokeType.INSIDE);

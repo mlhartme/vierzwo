@@ -11,11 +11,11 @@ import javafx.scene.paint.Color;
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Text extends StackPane {
     private Font font;
-    private String text;
+    private String[] text;
 
     public Text() {
         this.font = Font.create(Color.WHITE);
-        this.text = ":::";
+        this.text = new String[0];
         setAlignment(Pos.CENTER);
         setStyle("-fx-background-color: black;");
         setBorder(new Border(new BorderStroke(
@@ -32,19 +32,19 @@ public class Text extends StackPane {
         });
     }
 
-    protected void setText(String text) {
+    protected void setText(String ... text) {
         this.text = text;
     }
 
     protected void updateSize() {
         double xDots = font.width(text);
-        double yDots = font.height();
+        double yDots = font.height(text);
         int dotSize;
         if (getWidth() / getHeight() > xDots / yDots) {
             dotSize = (int) (getHeight() / yDots);
         } else {
             dotSize = (int) (getWidth() / xDots);
         }
-        getChildren().setAll(font.render(text, dotSize));
+        getChildren().setAll(font.render(dotSize, text));
     }
 }
