@@ -176,7 +176,9 @@ public class Font {
             .
             """;
 
-    // icon 1
+    //-- https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
+
+    // icon 1 - Sonne
     private static final String SUNNY = """
                 x   x
                 x   x
@@ -187,7 +189,7 @@ public class Font {
                 x   x
                 x   x
             """;
-    // icon 2
+    // icon 2 Sonne, leicht bewölkt
     private static final String SUNNY_WITH_CLOUD = """
                 x   x
                 x   x
@@ -198,7 +200,7 @@ public class Font {
                 x + + + + + + +
                 x + + + + + + +
             """;
-    // icon 3
+    // icon 3 Sonne, bewölkt
     private static final String SUNNY_WITH_MORE_CLOUD = """
          .           +   +
          .           +   +
@@ -209,7 +211,7 @@ public class Font {
          x x x x x x x x x
          .
          """;
-    // icon 4
+    // icon 4 Wolken
     private static final String CLOUDY = """
          .
          .
@@ -220,8 +222,9 @@ public class Font {
          x x x x + + + + + + +
          .
          """;
-    // ?? icon 5
-    private static final String FOG_TODO = """
+
+    // icon 5 - Nebel
+    private static final String FOG = """
          .
          x   x   x   x
            x   x   x
@@ -232,9 +235,9 @@ public class Font {
          .
          """;
 
-    // TODO icon 6
+    // TODO icon 6 - Nebel, rutschgefahr
 
-    // icon 7 -- light rain
+    // icon 7 --leichter Regen
     private static final String LIGHT_RAIN = """
          .
            x x x   x x x
@@ -246,8 +249,20 @@ public class Font {
              +
          """;
 
-    // ?? icon 8 ?
-    private static final String RAIN_TODO = """
+    // icon 8 - Regen
+    private static final String RAIN = """
+         .
+           x x x   x x x
+         x x x x x x x x x x
+         x x x x x x x x x x x
+         x x x x x x x x x x x
+               +   +
+             +   +
+         +   +
+         """;
+
+    // icon 9 - starker Regen
+    private static final String HEAVY_RAIN = """
          .
            x x x   x x x
          x x x x x x x x x x
@@ -310,11 +325,11 @@ public class Font {
         /*  2 */ font.add('B', SUNNY_WITH_CLOUD, 10, Color.YELLOW, Color.LIGHTGRAY);
         /*  3 */ font.add('C', SUNNY_WITH_MORE_CLOUD, 11, Color.GRAY, Color.YELLOW);
         /*  4 */ font.add('D', CLOUDY, 11, Color.DARKGRAY, Color.GRAY);
-        /*  5 */ font.add('E', FOG_TODO, 7, Color.LIGHTGRAY);
+        /*  5 */ font.add('E', FOG, 7, Color.LIGHTGRAY);
         /*  6 */ font.add('F', UNKNOWN, 7, Color.LIGHTGRAY);
         /*  7 */ font.add('G', LIGHT_RAIN, 11, Color.GRAY, Color.BLUE);
-        /*  8 */ font.add('H', RAIN_TODO, 11, Color.GRAY, Color.BLUE);
-        /*  9 */ font.add('I', UNKNOWN, 7, Color.LIGHTGRAY);
+        /*  8 */ font.add('H', RAIN, 11, Color.GRAY, Color.BLUE);
+        /*  9 */ font.add('I', HEAVY_RAIN, 11, Color.GRAY, Color.BLUE);
         /* 10 */ font.add('J', UNKNOWN, 7, Color.LIGHTGRAY);
         /* 11 */ font.add('K', UNKNOWN, 7, Color.LIGHTGRAY);
         /* 12 */ font.add('L', UNKNOWN, 7, Color.LIGHTGRAY);

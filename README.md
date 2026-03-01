@@ -30,16 +30,6 @@ and from IntelliJ IDEA with VM options
 * current temperature
 
 * centered lines
-* weather
-  * https://dwd.api.bund.dev
-  * https://www.dwd.de/DE/leistungen/klimadatendeutschland/stationsuebersicht.html
-  *  curl -X 'GET' \
-     'https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=10501,G3' \
-     -H 'accept: application/json' | jq > aachen.json
-  * under "days"
-    * temperaturen in 1/10 grad
-    * precipitation: nederschlag in 1/10 mm
-    * sunshine: in 1/10 minuten -> dh /600 ergibt stunden
 * beautify dots
 * animate
 * fancy name
