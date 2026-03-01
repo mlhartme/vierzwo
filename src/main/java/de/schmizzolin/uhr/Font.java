@@ -125,6 +125,36 @@ public class Font {
             .
             .
             """;
+    private static final String DEGREE = """
+            x x
+            x x
+            .
+            .
+            .
+            .
+            .
+            .
+            """;
+    private static final String CELSIUS = """
+            .
+            . x x
+            x
+            x
+            x
+              x x
+            .
+            .
+            """;
+    private static final String TO = """
+            .
+            .
+            .
+            x x x
+            .
+            .
+            .
+            .
+            """;
     private static final String SPACE = """
             . . .
             . . .
@@ -144,27 +174,6 @@ public class Font {
             x
             .
             .
-            """;
-    private static final String UP = """
-              .
-              x
-            x x x
-              x
-              x
-              .
-              .
-              .
-            """;
-
-    private static final String DOWN = """
-              .
-              .
-              x
-              x
-            x x x
-              x
-              .
-              .
             """;
 
     // icon 1
@@ -291,9 +300,9 @@ public class Font {
 
         font.add('h', HOUR, 3, Color.WHITE);
         font.add('m', EM, 5, Color.WHITE);
-
-        font.add('^', UP, 3, Color.LIGHTPINK);
-        font.add('v', DOWN, 3, Color.LIGHTBLUE);
+        font.add('d', DEGREE, 2, Color.WHITE);
+        font.add('c', CELSIUS, 3, Color.WHITE);
+        font.add('-', TO, 3, Color.WHITE);
 
         // iday pictogramm
         // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
