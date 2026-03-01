@@ -105,6 +105,26 @@ public class Font {
             """
     };
 
+    private static final String HOUR = """
+            .
+            x
+            x
+            x x
+            x   x
+            x   x
+            .
+            .
+            """;
+    private static final String EM = """
+            .
+            .
+            .
+            x x   x
+            x   x   x
+            x   x   x
+            .
+            .
+            """;
     private static final String SPACE = """
             . . .
             . . .
@@ -268,6 +288,10 @@ public class Font {
         Font font = new Font();
         font.add(' ', SPACE);
         font.add(':', COLON, 1, Color.WHITE);
+
+        font.add('h', HOUR, 3, Color.WHITE);
+        font.add('m', EM, 5, Color.WHITE);
+
         font.add('^', UP, 3, Color.LIGHTPINK);
         font.add('v', DOWN, 3, Color.LIGHTBLUE);
 

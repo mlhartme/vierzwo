@@ -64,8 +64,9 @@
           <name>uhr</name>
           <main>de.schmizzolin.uhr.Main</main>
           <options>"--module-path $JAVA_FX_HOME/lib --add-modules javafx.controls,javafx.fxml"</options>
-          <overwrite>META-INF/substrate/config/*.json, META-INF/substrate/config/resourcebundles</overwrite>
-          <remove>module-info.class</remove>
+          <overwrite>META-INF/substrate/config/*.json, META-INF/substrate/config/resourcebundles,
+            META-INF/LICENSE, META-INF/NOTICE</overwrite>
+          <remove>META-INF/versions/9/module-info.class, module-info.class</remove>
         </configuration>
         <executions>
           <execution>

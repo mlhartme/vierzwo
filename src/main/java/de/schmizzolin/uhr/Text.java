@@ -32,7 +32,7 @@ public class Text extends StackPane {
         });
     }
 
-    protected void setText(String ... text) {
+    protected void setText(String... text) {
         this.text = text;
     }
 

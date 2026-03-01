@@ -44,7 +44,7 @@ public class Clock extends Text {
         var now = LocalDateTime.now();
         var time = String.format(Locale.GERMAN, " %02d:%02d", now.getHour(), now.getMinute());
         var temperature = "v" + round(today.temperaturMin()) + " " + round(today.temperatureMax()) + "^";
-        var rainSun  = today.sunshineHours() + "s p" + today.precipitationMM();
+        var rainSun  = "s" + today.sunshineHours() + "h p" + today.precipitationMM() + "mm";
 
         setText(time, "  " + ((char) ('@' + today.icon())), temperature, rainSun);
     }
