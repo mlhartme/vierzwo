@@ -24,6 +24,11 @@ and from IntelliJ IDEA with VM options
 
 ## TODO
 
+* weather symbols
+  * complete
+  * beautify
+* current temperature
+
 * centered lines
 * weather
   * https://dwd.api.bund.dev

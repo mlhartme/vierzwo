@@ -2,6 +2,7 @@ package de.schmizzolin.uhr;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.IOException;
@@ -14,8 +15,11 @@ import java.util.Map;
 public class Dwd {
     public static void main(String[] args) throws IOException, InterruptedException {
         var wetter = new Dwd();
-        var result = wetter.stationOverviewExtended();
-        System.out.println(result);
+        var result = wetter.stationOverviewExtendedDays(WeatherStation.KIEL_HOLTENAU);
+        for (int i = 0; i < result.size(); i++) {
+            var obj = (ObjectNode) result.get(i);
+            System.out.println("day " + i + ": " + obj.get("icon").asInt());
+        }
     }
 
     private final String baseUri;
@@ -27,13 +31,16 @@ public class Dwd {
     }
 
     record Today(String date, int temperaturMin, int temperatureMax, int precipitation, int sunshine, int icon) {
+        public int sunshineHours() {
+            return (sunshine + 300) / 600;
+        }
+        public int precipitationMM() {
+            return (precipitation + 5) / 10;
+        }
     }
 
-    private static final int AACHEN_ID = 10501;
-
-    public Today stationOverviewExtended() throws IOException, InterruptedException {
-        var all = get("stationOverviewExtended", Map.of("stationIds", AACHEN_ID + ",G3"), ObjectNode.class);
-        var obj = (ObjectNode) all.get("" + AACHEN_ID).get("days").get(0);
+    public Today stationOverviewExtendedToday(WeatherStation ws) throws IOException, InterruptedException {
+        var obj = stationOverviewExtendedDays(ws).get(0);
         return new Today(
                 obj.get("dayDate").asText(),
                 obj.get("temperatureMin").asInt(),
@@ -42,6 +49,10 @@ public class Dwd {
                 obj.get("sunshine").asInt(),
                 obj.get("icon").asInt()
         );
+    }
+    public ArrayNode stationOverviewExtendedDays(WeatherStation ws) throws IOException, InterruptedException {
+        var all = get("stationOverviewExtended", Map.of("stationIds", ws.kennziffer() + ",G" + ws.id()), ObjectNode.class);
+        return (ArrayNode) all.get("" + ws.kennziffer()).get("days");
     }
 
     public <T> T get(String path, Map<String, String> args, Class<T> clazz) throws IOException, InterruptedException {

@@ -5,33 +5,56 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Locale;
 
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Clock extends Text {
-    private final String temperature;
-    public Clock() throws IOException, InterruptedException {
+    private OffsetDateTime todayUpdate;
+    private Dwd.Today today;
+
+    public Clock(){
         super();
 
         Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0), e -> updateTime()),
+                new KeyFrame(Duration.seconds(0), e -> {
+                    try {
+                        updateTime();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }),
                 new KeyFrame(Duration.seconds(1))
         );
         timeline.setCycleCount(javafx.animation.Animation.INDEFINITE);
         timeline.play();
-
-        var today = new Dwd().stationOverviewExtended();
-        temperature = "v" + round(today.temperaturMin()) + " " + round(today.temperatureMax()) + "^";
+        todayUpdate = OffsetDateTime.now().minusHours(100);
     }
 
     private static int round(int temp) {
         return (temp + 5) / 10;
     }
 
-    private void updateTime() {
-        LocalTime now = LocalTime.now();
-        String time = String.format(Locale.GERMAN, " %02d:%02d", now.getHour(), now.getMinute());
-        setText(time, "  f", temperature);
+    private void updateTime() throws IOException, InterruptedException {
+        updateWeather();
+
+        var now = LocalDateTime.now();
+        var time = String.format(Locale.GERMAN, " %02d:%02d", now.getHour(), now.getMinute());
+        var temperature = "v" + round(today.temperaturMin()) + " " + round(today.temperatureMax()) + "^";
+        var rainSun  = today.sunshineHours() + "s p" + today.precipitationMM();
+
+        setText(time, "  " + ((char) ('@' + today.icon())), temperature, rainSun);
+    }
+
+    private void updateWeather() throws IOException, InterruptedException {
+        if (todayUpdate.isBefore(OffsetDateTime.now().minusHours(1))) {
+            today = new Dwd().stationOverviewExtendedToday(WeatherStation.AACHEN);
+            todayUpdate = OffsetDateTime.now();
+            System.out.println("icon: " + today.icon());
+        }
+
     }
 }
