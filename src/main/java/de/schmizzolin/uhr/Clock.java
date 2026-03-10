@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Clock extends Text {
@@ -42,11 +40,11 @@ public class Clock extends Text {
         updateWeather();
 
         var now = LocalDateTime.now();
-        var time = String.format(Locale.GERMAN, " %02d:%02d", now.getHour(), now.getMinute());
-        var temperature = " " + round(today.temperaturMin()) + "-" + round(today.temperatureMax()) + "dc";
+        var time = String.format(Locale.GERMAN, "%02d:%02d", now.getHour(), now.getMinute());
+        var temperature = round(today.temperaturMin()) + "-" + round(today.temperatureMax()) + "dc";
         var rainSun  = "s" + today.sunshineHours() + "h p" + today.precipitationMM() + "mm";
 
-        setText(time, "  " + ((char) ('@' + today.icon())), temperature, rainSun);
+        setText(time, Character.toString((char) ('@' + today.icon())), temperature, rainSun);
     }
 
     private void updateWeather() throws IOException, InterruptedException {

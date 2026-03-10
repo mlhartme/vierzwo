@@ -372,12 +372,16 @@ public class Font {
     public int width(String... text) {
         var result = 0;
         for (var str : text) {
-            var line = 0;
-            for (var i = 0; i < str.length(); i++) {
-                line += dots.get(str.charAt(i)).width();
-            }
-            line += str.length() - 1;
-            result = Math.max(result, line);
+            result = Math.max(result, width(str));
+        }
+        return result;
+    }
+
+    /** @return number of dots */
+    public int width(String str) {
+        var result = str.length() - 1;
+        for (var i = 0; i < str.length(); i++) {
+            result += dots.get(str.charAt(i)).width();
         }
         return result;
     }
@@ -387,17 +391,18 @@ public class Font {
     }
 
     public Group render(int dotWidth, String... text) {
+        var maxDots = width(text);
         var result = new Group();
         var yOfs = 0;
         for (var str : text) {
-            var xOfs = 0;
+            var xOfs = (maxDots - width(str)) / 2 * dotWidth;
             for (int i = 0; i < str.length(); i++) {
                 var character = str.charAt(i);
                 var matrix = dots.get(character);
                 if (matrix == null) {
                     throw new IllegalArgumentException("unknown character: " + character);
                 }
-                render(result, xOfs, yOfs, dotWidth, matrix);
+                renderCharacter(result, xOfs, yOfs, dotWidth, matrix);
                 xOfs += (matrix.width() + 1) * dotWidth;
             }
             yOfs += HEIGHT * dotWidth;
@@ -405,7 +410,7 @@ public class Font {
         return result;
     }
 
-    private void render(Group dest, int xOfs, int yOfs, int dotWidth, Matrix matrix) {
+    private void renderCharacter(Group dest, int xOfs, int yOfs, int dotWidth, Matrix matrix) {
         var dotSpace = Math.max(1, dotWidth / 32);
         var dotArc = Math.max(1, dotWidth / 6);
 
