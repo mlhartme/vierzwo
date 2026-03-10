@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Locale;
 
-// Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Clock extends Text {
     private OffsetDateTime todayUpdate;
     private Dwd.Today today;
