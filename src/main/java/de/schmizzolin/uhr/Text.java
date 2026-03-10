@@ -27,10 +27,10 @@ public class Text extends StackPane {
                 new BorderWidths(10)
         )));
         this.widthProperty().addListener((obs, oldVal, newVal) -> {
-            updateSize();
+            update();
         });
         this.heightProperty().addListener((obs, oldVal, newVal) -> {
-            updateSize();
+            update();
         });
     }
 
@@ -38,11 +38,11 @@ public class Text extends StackPane {
         var modified = List.of(this.text).equals(List.of(text));
         this.text = text;
         if (modified) {
-            updateSize();
+            update();
         }
     }
 
-    protected void updateSize() {
+    protected void update() {
         double xDots = font.width(text);
         double yDots = font.height(text);
         int dotSize;

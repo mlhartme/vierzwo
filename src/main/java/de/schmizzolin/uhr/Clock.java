@@ -23,9 +23,7 @@ public class Clock extends Text {
                 new KeyFrame(Duration.seconds(0), e -> {
                     try {
                         updateTime();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (InterruptedException ex) {
+                    } catch (IOException | InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
                 }),
