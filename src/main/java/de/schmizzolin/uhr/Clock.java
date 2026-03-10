@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Clock extends Text {

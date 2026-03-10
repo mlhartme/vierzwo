@@ -28,6 +28,7 @@ and from IntelliJ IDEA with VM options
   * complete
   * beautify
 * current temperature
+  * https://forum.iobroker.net/topic/70048/json-abfrage-per-request-liefert-nur-matsch
 
 * centered lines
 * beautify dots

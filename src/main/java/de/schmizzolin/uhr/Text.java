@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
 public class Text extends StackPane {
     private Font font;
@@ -33,7 +35,11 @@ public class Text extends StackPane {
     }
 
     protected void setText(String... text) {
+        var modified = List.of(this.text).equals(List.of(text));
         this.text = text;
+        if (modified) {
+            updateSize();
+        }
     }
 
     protected void updateSize() {

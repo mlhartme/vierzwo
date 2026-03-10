@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
+// https://dwd.api.bund.dev
 public class Dwd {
     public static void main(String[] args) throws IOException, InterruptedException {
         var wetter = new Dwd();
