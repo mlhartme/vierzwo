@@ -22,6 +22,12 @@ and from IntelliJ IDEA with VM options
 
     --module-path $JAVA_FX_HOME/lib --add-modules javafx.controls,javafx.fxml
 
+## Know how
+
+* launch from ssh terminal
+  * export DISPLAY=:0
+
+
 ## TODO
 
 * weather symbols
