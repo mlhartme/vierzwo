@@ -319,6 +319,8 @@ public class Font {
         font.add('c', CELSIUS, 3, Color.WHITE);
         font.add('-', TO, 3, Color.WHITE);
 
+        font.add('!', UNKNOWN, 7, Color.LIGHTGRAY);
+
         // iday pictogramm
         // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
         /*  1 */ font.add('A', SUNNY, 7, Color.YELLOW);
@@ -326,17 +328,9 @@ public class Font {
         /*  3 */ font.add('C', SUNNY_WITH_MORE_CLOUD, 11, Color.GRAY, Color.YELLOW);
         /*  4 */ font.add('D', CLOUDY, 11, Color.DARKGRAY, Color.GRAY);
         /*  5 */ font.add('E', FOG, 7, Color.LIGHTGRAY);
-        /*  6 */ font.add('F', UNKNOWN, 7, Color.LIGHTGRAY);
         /*  7 */ font.add('G', LIGHT_RAIN, 11, Color.GRAY, Color.BLUE);
         /*  8 */ font.add('H', RAIN, 11, Color.GRAY, Color.BLUE);
         /*  9 */ font.add('I', HEAVY_RAIN, 11, Color.GRAY, Color.BLUE);
-        /* 10 */ font.add('J', UNKNOWN, 7, Color.LIGHTGRAY);
-        /* 11 */ font.add('K', UNKNOWN, 7, Color.LIGHTGRAY);
-        /* 12 */ font.add('L', UNKNOWN, 7, Color.LIGHTGRAY);
-        /* 13 */ font.add('M', UNKNOWN, 7, Color.LIGHTGRAY);
-        /* 14 */ font.add('N', UNKNOWN, 7, Color.LIGHTGRAY);
-        /* 15 */ font.add('O', UNKNOWN, 7, Color.LIGHTGRAY);
-        /* 16 */ font.add('P', UNKNOWN, 7, Color.LIGHTGRAY);
 
         font.add('s', SMALL_SUN, 2, Color.YELLOW);
         font.add('p', SMALL_RAIN, 2, Color.BLUE);
@@ -351,6 +345,10 @@ public class Font {
 
     public Font() {
         this.dots = new HashMap<>();
+    }
+
+    protected Matrix get(char c) {
+        return dots.get(dots.containsKey(c) ? c : '!');
     }
 
     public void add(char character, String matrix) {
@@ -381,7 +379,7 @@ public class Font {
     public int width(String str) {
         var result = str.length() - 1;
         for (var i = 0; i < str.length(); i++) {
-            result += dots.get(str.charAt(i)).width();
+            result += get(str.charAt(i)).width();
         }
         return result;
     }
@@ -398,7 +396,7 @@ public class Font {
             var xOfs = (maxDots - width(str)) / 2 * dotWidth;
             for (int i = 0; i < str.length(); i++) {
                 var character = str.charAt(i);
-                var matrix = dots.get(character);
+                var matrix = get(character);
                 if (matrix == null) {
                     throw new IllegalArgumentException("unknown character: " + character);
                 }

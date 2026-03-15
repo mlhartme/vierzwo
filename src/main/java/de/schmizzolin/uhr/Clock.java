@@ -52,6 +52,5 @@ public class Clock extends Text {
             todayUpdate = OffsetDateTime.now();
             System.out.println("icon: " + today.icon());
         }
-
     }
 }
