@@ -2,95 +2,8 @@
 set -e
 evemu-play /dev/input/event5 <<EOF
 # EVEMU 1.3
-# Kernel: 6.12.62+rpt-rpi-2712
 # Input device name: "10-005d Goodix Capacitive TouchScreen"
 # Input device ID: bus 0x18 vendor 0x416 product 0x38f version 0x1060
-# Supported events:
-#   Event type 0 (EV_SYN)
-#     Event code 0 (SYN_REPORT)
-#     Event code 1 (SYN_CONFIG)
-#     Event code 2 (SYN_MT_REPORT)
-#     Event code 3 (SYN_DROPPED)
-#     Event code 4 ((null))
-#     Event code 5 ((null))
-#     Event code 6 ((null))
-#     Event code 7 ((null))
-#     Event code 8 ((null))
-#     Event code 9 ((null))
-#     Event code 10 ((null))
-#     Event code 11 ((null))
-#     Event code 12 ((null))
-#     Event code 13 ((null))
-#     Event code 14 ((null))
-#     Event code 15 (SYN_MAX)
-#   Event type 1 (EV_KEY)
-#     Event code 59 (KEY_F1)
-#     Event code 60 (KEY_F2)
-#     Event code 61 (KEY_F3)
-#     Event code 62 (KEY_F4)
-#     Event code 63 (KEY_F5)
-#     Event code 64 (KEY_F6)
-#     Event code 125 (KEY_LEFTMETA)
-#     Event code 330 (BTN_TOUCH)
-#   Event type 3 (EV_ABS)
-#     Event code 0 (ABS_X)
-#       Value      168
-#       Min          0
-#       Max        719
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 1 (ABS_Y)
-#       Value      712
-#       Min          0
-#       Max       1279
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 47 (ABS_MT_SLOT)
-#       Value        0
-#       Min          0
-#       Max          9
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 48 (ABS_MT_TOUCH_MAJOR)
-#       Value        0
-#       Min          0
-#       Max        255
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 50 (ABS_MT_WIDTH_MAJOR)
-#       Value        0
-#       Min          0
-#       Max        255
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 53 (ABS_MT_POSITION_X)
-#       Value        0
-#       Min          0
-#       Max        719
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 54 (ABS_MT_POSITION_Y)
-#       Value        0
-#       Min          0
-#       Max       1279
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-#     Event code 57 (ABS_MT_TRACKING_ID)
-#       Value        0
-#       Min          0
-#       Max      65535
-#       Fuzz         0
-#       Flat         0
-#       Resolution   0
-# Properties:
-#   Property  type 1 (INPUT_PROP_DIRECT)
 N: 10-005d Goodix Capacitive TouchScreen
 I: 0018 0416 038f 1060
 P: 02 00 00 00 00 00 00 00
@@ -143,4 +56,4 @@ E: 0.065347 0000 0000 0000	# ------------ SYN_REPORT (0) ---------- +65ms
 E: 0.089348 0003 0039 -001	# EV_ABS / ABS_MT_TRACKING_ID   -1
 E: 0.089348 0001 014a 0000	# EV_KEY / BTN_TOUCH            0
 E: 0.089348 0000 0000 0000	# ------------ SYN_REPORT (0) ---------- +24ms
-EOF
+<<EOF

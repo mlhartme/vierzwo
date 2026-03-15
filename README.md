@@ -24,8 +24,17 @@ and from IntelliJ IDEA with VM options
 
 ## Know how
 
+* Rapsberry Pi OS has Wayland with Labwc Window manager
+* simulate input
+  * "ydotool" seems standard, but I didnt succeed wit apt install ydotool
+  * use "evemu"
+    * abt install evemu-tools
 * launch from ssh terminal
   * export DISPLAY=:0
+
+* for wakeup script: crontab -e
+
+      */5 5-8 * * * /home/mhm/wakeup.sh
 
 
 ## TODO
