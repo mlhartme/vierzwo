@@ -26,6 +26,8 @@ public class Font {
         return font;
     }
 
+    //--
+
     private final Map<Character, Matrix> dots; // value[y][x]
 
     public Font() {
@@ -85,7 +87,7 @@ public class Font {
 
     private void add(String header, String matrix) {
         if (header.isBlank()) {
-            add(' ', matrix, matrixWidth(matrix), Color.WHITE);
+            add(' ', matrix, matrixWidth(matrix), Color.WHITE, Color.WHITE, Color.WHITE);
         } else {
             if (header.charAt(1) != ' ') {
                 throw new IllegalArgumentException("invalid header: " + header);
@@ -129,17 +131,6 @@ public class Font {
             }
             return new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         }
-    }
-
-    public void add(char character, String matrix) {
-        add(character, matrix, 3, Color.WHITE);
-    }
-
-    public void add(char character, String matrix, int width, Color color) {
-        add(character, matrix, width, color, color);
-    }
-    public void add(char character, String matrix, int width, Color color, Color color2) {
-        dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2, color2));
     }
 
     public void add(char character, String matrix, int width, Color color, Color color2, Color color3) {
