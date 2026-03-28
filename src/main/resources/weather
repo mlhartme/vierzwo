@@ -1,0 +1,128 @@
+--- A YELLOW / icon 1 - Sonnig
+
+    x   x
+    x   x
+x x x x x x x
+    x x x
+    x x x
+x x x x x x x
+    x   x
+    x   x
+
+--- B YELLOW LIGHTGRAY / icon 2 - Sonnig mit Wolken
+
+    x   x
+    x   x
+x x x x x x x
+    x x x
+    x x x
+x x x x + +   + +
+    x + + + + + + +
+    x + + + + + + +
+
+
+--- C GRAY YELLOW / icon 3 - Sonnig mit mehr Wolken
+
+.           +   +
+.           +   +
+.       + + + + + + +
+  x x x   x x x +
+x x x x x x x x x + +
+x x x x x x x x x
+x x x x x x x x x
+.
+
+
+--- D DARKGRAY GRAY / icon 4 - Bewölkt
+
+.
+.
+.
+  x x x   x x
+x x x x x + + x + +
+x x x x + + + + + + +
+x x x x + + + + + + +
+.
+
+
+--- E LIGHTGRAY / icon 5 - Nebel
+
+.
+x   x   x   x
+  x   x   x
+
+x   x   x   x
+  x   x   x
+.
+.
+
+--- G LIGHTGRAY BLUE / icon 7 - leichter Regen
+
+.
+  x x x   x x x
+x x x x x x x x x x
+x x x x x x x x x x x
+x x x x x x x x x x x
+        +
+      +
+    +
+
+
+--- H GRAY BLUE / icon 8 - Regen
+
+.
+  x x x   x x x
+x x x x x x x x x x
+x x x x x x x x x x x
+x x x x x x x x x x x
+      +   +
+    +   +
++   +
+
+
+--- I GRAY BLUE / icon 9 - starker Regen
+
+.
+  x x x   x x x
+x x x x x x x x x x
+x x x x x x x x x x x
+x x x x x x x x x x x
+    +   +   +
+  +   +   +
++   +   +
+
+
+--- Q LIGHTGRAY BLUE YELLOW / icon 17 - Leichter Regen und Sonne
+
+.             *   *
+  x x x   x x x * *
+x x x x x x x x x * *
+x x x x x x x x x x * * *
+x x x x x x x x x x
+      +
+    +
+  +
+
+
+--- R GRAY BLUE YELLOW / icon 18 - Regen und Sonne
+
+.             *   *
+  x x x   x x x * *
+x x x x x x x x x * *
+x x x x x x x x x x * * *
+x x x x x x x x x x
+      +   +
+    +   +
+  +   +
+
+
+--- S GRAY BLUE YELLOW / icon 19 - Starker Regen und Sonne
+
+.             *   *
+  x x x   x x x * *
+x x x x x x x x x * *
+x x x x x x x x x x * * *
+x x x x x x x x x x
+      +   +   +
+    +   +   +
+  +   +   +

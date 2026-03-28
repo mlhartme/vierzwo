@@ -25,7 +25,7 @@ public class Matrix {
                 };
                 if (twoX + 1 < line.length()) {
                     if (line.charAt(twoX + 1) != ' ') {
-                        throw new IllegalArgumentException("missing space at " + (twoX + 1));
+                        throw new IllegalArgumentException("line " + y + ": missing space at " + (twoX + 1));
                     }
                 }
             }

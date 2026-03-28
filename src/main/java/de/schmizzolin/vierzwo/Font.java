@@ -180,114 +180,8 @@ public class Font {
             """;
 
     //-- https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
-
-    // icon 1 - Sonne
-    private static final String SUNNY = """
-                x   x
-                x   x
-            x x x x x x x
-                x x x
-                x x x
-            x x x x x x x
-                x   x
-                x   x
-            """;
-    // icon 2 Sonne, leicht bewölkt
-    private static final String SUNNY_WITH_CLOUD = """
-                x   x
-                x   x
-            x x x x x x x
-                x x x
-                x x x
-            x x x x + +   + +
-                x + + + + + + +
-                x + + + + + + +
-            """;
-    // icon 3 Sonne, bewölkt
-    private static final String SUNNY_WITH_MORE_CLOUD = """
-         .           +   +
-         .           +   +
-         .       + + + + + + +
-           x x x   x x x +
-         x x x x x x x x x + +
-         x x x x x x x x x
-         x x x x x x x x x
-         .
-         """;
-    // icon 4 Wolken
-    private static final String CLOUDY = """
-         .
-         .
-         .
-           x x x   x x
-         x x x x x + + x + +
-         x x x x + + + + + + +
-         x x x x + + + + + + +
-         .
-         """;
-
-    // icon 5 - Nebel
-    private static final String FOG = """
-         .
-         x   x   x   x
-           x   x   x
-
-         x   x   x   x
-           x   x   x
-         .
-         .
-         """;
-
     // TODO icon 6 - Nebel, rutschgefahr
 
-    // icon 7 --leichter Regen
-    private static final String LIGHT_RAIN = """
-         .
-           x x x   x x x
-         x x x x x x x x x x
-         x x x x x x x x x x x
-         x x x x x x x x x x x
-                 +
-               +
-             +
-         """;
-
-    // icon 8 - Regen
-    private static final String RAIN = """
-         .
-           x x x   x x x
-         x x x x x x x x x x
-         x x x x x x x x x x x
-         x x x x x x x x x x x
-               +   +
-             +   +
-         +   +
-         """;
-
-    // icon 9 - starker Regen
-    private static final String HEAVY_RAIN = """
-         .
-           x x x   x x x
-         x x x x x x x x x x
-         x x x x x x x x x x x
-         x x x x x x x x x x x
-             +   +   +
-           +   +   +
-         +   +   +
-         """;
-
-
-    // icon 18 - Regen und Sonne
-    private static final String LIGHT_RAIN_AND_SUN = """
-         .             *   *
-           x x x   x x x * *
-         x x x x x x x x x * *
-         x x x x x x x x x x * * *
-         x x x x x x x x x x
-                 +
-               +
-             +
-         """;
 
     // unknown icon
     private static final String UNKNOWN = """
@@ -339,16 +233,7 @@ public class Font {
 
         // iday pictogramm
         // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
-        /*  1 */ font.add('A', SUNNY, 7, Color.YELLOW);
-        /*  2 */ font.add('B', SUNNY_WITH_CLOUD, 10, Color.YELLOW, Color.LIGHTGRAY);
-        /*  3 */ font.add('C', SUNNY_WITH_MORE_CLOUD, 11, Color.GRAY, Color.YELLOW);
-        /*  4 */ font.add('D', CLOUDY, 11, Color.DARKGRAY, Color.GRAY);
-        /*  5 */ font.add('E', FOG, 7, Color.LIGHTGRAY);
-        /*  7 */ font.add('G', LIGHT_RAIN, 11, Color.LIGHTGRAY, Color.BLUE);
-        /*  8 */ font.add('H', RAIN, 11, Color.GRAY, Color.BLUE);
-        /*  9 */ font.add('I', HEAVY_RAIN, 11, Color.GRAY, Color.BLUE);
-        /* 17 */ font.add('Q', LIGHT_RAIN_AND_SUN, 13, Color.LIGHTGRAY, Color.BLUE, Color.YELLOW);
-        font.addResource("font");
+        font.addResource("weather");
 
         font.add('s', SMALL_SUN, 2, Color.YELLOW);
         font.add('p', SMALL_RAIN, 2, Color.BLUE);
@@ -472,7 +357,11 @@ public class Font {
     }
 
     public void add(char character, String matrix, int width, Color color, Color color2, Color color3) {
-        dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2, color3));
+        try {
+            dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2, color3));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("char " + character + ": " + e.getMessage(), e);
+        }
     }
 
     public void add(char character, Matrix matrix) {
