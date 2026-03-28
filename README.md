@@ -45,11 +45,6 @@ and from IntelliJ IDEA with VM options
 
 ## TODO
 
-* https://brightsky.dev
-* 
-* current temperature
-  * https://forum.iobroker.net/topic/70048/json-abfrage-per-request-liefert-nur-matsch
-* date?
 * weather symbols
   * complete
   * beautify

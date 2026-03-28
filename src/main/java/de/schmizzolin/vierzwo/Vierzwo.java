@@ -40,13 +40,14 @@ public class Vierzwo extends Text {
         updateWeather();
 
         var now = LocalDateTime.now();
+        var date = String.format(Locale.GERMAN, "%d.%d. %d", now.getDayOfMonth(), now.getMonth().getValue(), now.getYear());
         var time = String.format(Locale.GERMAN, "%02d:%02d", now.getHour(), now.getMinute());
         var rainSun  = "s" + today.sunshineHours() + "h p" + today.precipitationMM() + "mm";
         var temperature = round(today.temperaturMin()) + "d "
                 + currentTemperatur + "d "
                 + round(today.temperatureMax()) + "d";
 
-        setText(time, Character.toString((char) ('@' + today.icon())), rainSun, temperature);
+        setText(date, time, Character.toString((char) ('@' + today.icon())), rainSun, temperature);
     }
 
     private void updateWeather() throws IOException, InterruptedException {
