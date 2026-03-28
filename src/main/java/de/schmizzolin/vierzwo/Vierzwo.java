@@ -12,6 +12,7 @@ import java.util.Locale;
 public class Vierzwo extends Text {
     private OffsetDateTime todayUpdate;
     private Dwd.Today today;
+    private int currentTemperatur;
 
     public Vierzwo(){
         super();
@@ -40,16 +41,17 @@ public class Vierzwo extends Text {
 
         var now = LocalDateTime.now();
         var time = String.format(Locale.GERMAN, "%02d:%02d", now.getHour(), now.getMinute());
-        var temperature = round(today.temperaturMin()) + "-" + round(today.temperatureMax()) + "dc";
+        var temperature = round(today.temperaturMin()) + "d " + round(today.temperatureMax()) + "d";
         var rainSun  = "s" + today.sunshineHours() + "h p" + today.precipitationMM() + "mm";
 
-        setText(time, Character.toString((char) ('@' + today.icon())), temperature, rainSun);
+        setText(time + " " + currentTemperatur + "d", Character.toString((char) ('@' + today.icon())), temperature, rainSun);
     }
 
     private void updateWeather() throws IOException, InterruptedException {
         if (todayUpdate.isBefore(OffsetDateTime.now().minusHours(1))) {
             today = new Dwd().stationOverviewExtendedToday(WeatherStation.AACHEN);
             todayUpdate = OffsetDateTime.now();
+            currentTemperatur = new BrightSky().temperatur(50.767897, 6.121299);
             System.out.println("icon: " + today.icon());
         }
     }
