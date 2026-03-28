@@ -15,99 +15,6 @@ import java.util.Map;
 public class Font {
     private static final int HEIGHT = 8;
 
-    private static final String[] DIGITS = { """
-            .
-            x x x
-            x   x
-            x   x
-            x   x
-            x x x
-            .
-            .
-            """, """
-            .
-              x
-            x x
-              x
-              x
-            x x x
-            .
-            .
-            """, """
-            .
-            x x x
-                x
-              x
-            x
-            x x x
-            .
-            .
-            """, """
-            .
-            x x x
-                x
-              x x
-                x
-            x x x
-            .
-            .
-            """, """
-            .
-            x   x
-            x   x
-            x x x
-                x
-                x
-            .
-            .
-            """, """
-            .
-            x x x
-            x
-            x x x
-                x
-            x x x
-            .
-            .
-            """, """
-            .
-            x x x
-            x
-            x x x
-            x   x
-            x x x
-            .
-            .
-            """, """
-            .
-            x x x
-                x
-              x
-              x
-              x
-            .
-            .
-            """, """
-            .
-            x x x
-            x   x
-            x x x
-            x   x
-            x x x
-            .
-            .
-            """, """
-            .
-            x x x
-            x   x
-            x x x
-                x
-            x x x
-            .
-            .
-            """
-    };
-
     private static final String HOUR = """
             .
             x
@@ -158,16 +65,7 @@ public class Font {
             .
             .
             """;
-    private static final String SPACE = """
-            . . .
-            . . .
-            . . .
-            . . .
-            . . .
-            . . .
-            . . .
-            . . .
-            """;
+
     private static final String COLON = """
             .
             .
@@ -216,7 +114,8 @@ public class Font {
 
     public static Font create() {
         Font font = new Font();
-        font.add(' ', SPACE);
+        font.addResource("basic");
+
         font.add(':', COLON, 1, Color.WHITE);
 
         font.add('h', HOUR, 3, Color.WHITE);
@@ -235,9 +134,6 @@ public class Font {
         font.add('s', SMALL_SUN, 2, Color.YELLOW);
         font.add('p', SMALL_RAIN, 2, Color.BLUE);
 
-        for (int i = 0; i < DIGITS.length; i++) {
-            font.add((char) ('0' + i), DIGITS[i]);
-        }
         return font;
     }
 
@@ -299,12 +195,16 @@ public class Font {
     }
 
     private void add(String header, String matrix) {
-        if (header.charAt(1) != ' ') {
-            throw new IllegalArgumentException("invalid header: " + header);
+        if (header.isBlank()) {
+            add(' ', matrix, matrixWidth(matrix), Color.WHITE);
+        } else {
+            if (header.charAt(1) != ' ') {
+                throw new IllegalArgumentException("invalid header: " + header);
+            }
+            var c = header.charAt(0);
+            var colors = threeColors(header.substring(2).trim());
+            add(c, matrix, matrixWidth(matrix), colors.get(0), colors.get(1), colors.get(2));
         }
-        var c = header.charAt(0);
-        var colors = threeColors(header.substring(2).trim());
-        add(c, matrix, matrixWidth(matrix), colors.get(0), colors.get(1), colors.get(2));
     }
 
     private static int matrixWidth(String matrix) {
