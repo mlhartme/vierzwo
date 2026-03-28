@@ -41,10 +41,12 @@ public class Vierzwo extends Text {
 
         var now = LocalDateTime.now();
         var time = String.format(Locale.GERMAN, "%02d:%02d", now.getHour(), now.getMinute());
-        var temperature = round(today.temperaturMin()) + "d " + round(today.temperatureMax()) + "d";
         var rainSun  = "s" + today.sunshineHours() + "h p" + today.precipitationMM() + "mm";
+        var temperature = round(today.temperaturMin()) + "d "
+                + currentTemperatur + "d "
+                + round(today.temperatureMax()) + "d";
 
-        setText(time + " " + currentTemperatur + "d", Character.toString((char) ('@' + today.icon())), temperature, rainSun);
+        setText(time, Character.toString((char) ('@' + today.icon())), rainSun, temperature);
     }
 
     private void updateWeather() throws IOException, InterruptedException {
