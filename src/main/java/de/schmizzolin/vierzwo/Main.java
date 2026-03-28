@@ -1,4 +1,4 @@
-package de.schmizzolin.uhr;
+package de.schmizzolin.vierzwo;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,7 +18,7 @@ public class Main extends Application {
         StackPane clock = new Clock();
 
         Scene scene = new Scene(clock, 360, 120);
-        stage.setTitle("Uhr");
+        stage.setTitle("Vierzwo");
         scene.setFill(Color.BLACK);
         stage.setScene(scene);
         stage.setAlwaysOnTop(true);
@@ -34,7 +34,7 @@ public class Main extends Application {
        because they behave differently on macOS and on touch screens  */
     private void contextMenu(Scene scene) {
         var menu = new ContextMenu();
-        var title = new MenuItem("Uhr");
+        var title = new MenuItem("Vierzwo");
         title.setDisable(true);
 
         var fullscreen = new MenuItem("Fullscreen");

@@ -1,4 +1,4 @@
-package de.schmizzolin.uhr;
+package de.schmizzolin.vierzwo;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

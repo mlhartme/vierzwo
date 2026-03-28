@@ -1,4 +1,4 @@
-package de.schmizzolin.uhr;
+package de.schmizzolin.vierzwo;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.Border;

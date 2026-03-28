@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
 
   <groupId>de.schmizzolin</groupId>
-  <artifactId>uhr</artifactId>
+  <artifactId>vierzwo</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <developers>
@@ -27,9 +27,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/mlhartme/uhr.git</connection>
-    <developerConnection>scm:git:https://github.com/mlhartme/uhr.git</developerConnection>
-    <url>https://github.com/mlhartme/uhr</url>
+    <connection>scm:git:https://github.com/mlhartme/vierzwo.git</connection>
+    <developerConnection>scm:git:https://github.com/mlhartme/vierzwo.git</developerConnection>
+    <url>https://github.com/mlhartme/vierzwo</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -53,7 +53,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>de.schmizzolin.uhr.Main</mainClass>
+          <mainClass>de.schmizzolin.virzwo.Main</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -61,8 +61,8 @@
         <artifactId>application</artifactId>
         <version>1.8.2</version>
         <configuration>
-          <name>uhr</name>
-          <main>de.schmizzolin.uhr.Main</main>
+          <name>vierzwo</name>
+          <main>de.schmizzolin.vierzwo.Main</main>
           <options>"--module-path $JAVA_FX_HOME/lib --add-modules javafx.controls,javafx.fxml"</options>
           <overwrite>META-INF/substrate/config/*.json, META-INF/substrate/config/resourcebundles,
             META-INF/LICENSE, META-INF/NOTICE</overwrite>

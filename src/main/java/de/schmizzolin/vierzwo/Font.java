@@ -1,4 +1,4 @@
-package de.schmizzolin.uhr;
+package de.schmizzolin.vierzwo;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

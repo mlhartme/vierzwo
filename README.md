@@ -1,4 +1,6 @@
-# Uhr
+# Vierzwo
+
+Display answers.
 
 ## Setup
 
@@ -16,7 +18,7 @@ with
 
 from shell with
 
-    ./target/uhr
+    ./target/vierzwo 
 
 and from IntelliJ IDEA with VM options
 

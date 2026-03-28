@@ -1,4 +1,4 @@
-package de.schmizzolin.uhr;
+package de.schmizzolin.vierzwo;
 
 // from https://www.dwd.de/DE/leistungen/klimadatendeutschland/stationsuebersicht.html
 public enum WeatherStation {

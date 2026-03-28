@@ -1,4 +1,4 @@
-package de.schmizzolin.uhr;
+package de.schmizzolin.vierzwo;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
