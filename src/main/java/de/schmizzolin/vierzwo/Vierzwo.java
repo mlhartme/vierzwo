@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Locale;
 
-public class Clock extends Text {
+public class Vierzwo extends Text {
     private OffsetDateTime todayUpdate;
     private Dwd.Today today;
 
-    public Clock(){
+    public Vierzwo(){
         super();
 
         Timeline timeline = new Timeline(
