@@ -2,15 +2,16 @@ package de.schmizzolin.vierzwo;
 
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 public class Matrix {
-    public static Matrix create(int width, int height, String matrix, Color color, Color color2, Color color3) {
-        String[] lines = matrix.split("\n");
-        Color[][] result = new Color[lines.length][];
-        if (lines.length != height) {
-            throw new IllegalArgumentException("height: " + lines.length);
+    public static Matrix create(int width, int height, List<String> matrix, Color color, Color color2, Color color3) {
+        Color[][] result = new Color[matrix.size()][];
+        if (matrix.size() != height) {
+            throw new IllegalArgumentException("height: " + matrix.size());
         }
-        for (int y = 0; y < lines.length; y++) {
-            var line = lines[y];
+        for (int y = 0; y < matrix.size(); y++) {
+            var line = matrix.get(y);
             result[y] = new Color[width];
             for (int twoX = 0; twoX < line.length(); twoX += 2) {
                 var c = line.charAt(twoX);

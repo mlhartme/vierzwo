@@ -6,6 +6,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,45 +41,50 @@ public class Font {
     }
 
     public void addResource(String name) {
-        String str;
+        List<String> lines;
 
         try {
-            str = readResource(name);
+            lines = new ArrayList<>(readResource(name));
         } catch (IOException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
 
-        while (true) {
-            if (!str.startsWith("---")) {
-                throw new IllegalArgumentException("invalid format: " + str);
+        while (!lines.isEmpty()) {
+            var header = lines.removeFirst();
+            if (!header.startsWith("---")) {
+                throw new IllegalArgumentException("invalid header: " + header);
             }
-            var end = str.indexOf("---", 3);
-            if (end < 0) {
-                addOne(str.substring(3));
+            eatEmpty(lines);
+            var body = eatBody(lines);
+            add(removeAfter(header.substring(3).trim(), "/").trim(), body);
+
+            eatEmpty(lines);
+        }
+    }
+
+    private static void eatEmpty(List<String> lines) {
+        while (!lines.isEmpty()) {
+            if (!lines.getFirst().isBlank()) {
+                return;
+            }
+            lines.removeFirst();
+        }
+    }
+
+    private static List<String> eatBody(List<String> lines) {
+        List<String> result = new ArrayList<>();
+        while (!lines.isEmpty()) {
+            var first = lines.getFirst();
+            if (first.isEmpty() || first.startsWith("---")) {
                 break;
-            } else {
-                addOne(str.substring(3, end));
-                str = str.substring(end);
             }
+            result.add(lines.removeFirst());
         }
+        return result;
     }
 
-    private void addOne(String str) {
-        var idx = str.indexOf('\n');
-        if (idx < 0) {
-            throw new IllegalArgumentException("invalid format: " + str);
-        }
-        add(removeAfter(str.substring(0, idx), "/").trim(),
-                stripLeadingEmptyLines(str.substring(idx + 1)).stripTrailing() + '\n');
-    }
-
-    private static String stripLeadingEmptyLines(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) != '\n') {
-                return str.substring(i);
-            }
-        }
-        throw new IllegalArgumentException("invalid format: " + str);
+    private void addOne(String header, List<String> body) {
+        add(removeAfter(header, "/").trim(), body);
     }
 
     private static String removeAfter(String str, String c) {
@@ -85,32 +92,25 @@ public class Font {
         return idx < 0 ? str : str.substring(0, idx);
     }
 
-    private void add(String header, String matrix) {
+    private void add(String header, List<String> body) {
         if (header.isBlank()) {
-            add(' ', matrix, matrixWidth(matrix), Color.WHITE, Color.WHITE, Color.WHITE);
+            add(' ', body, matrixWidth(body), Color.WHITE, Color.WHITE, Color.WHITE);
         } else {
             if (header.charAt(1) != ' ') {
                 throw new IllegalArgumentException("invalid header: " + header);
             }
             var c = header.charAt(0);
             var colors = threeColors(header.substring(2).trim());
-            add(c, matrix, matrixWidth(matrix), colors.get(0), colors.get(1), colors.get(2));
+            add(c, body, matrixWidth(body), colors.get(0), colors.get(1), colors.get(2));
         }
     }
 
-    private static int matrixWidth(String matrix) {
+    private static int matrixWidth(List<String> matrix) {
         var width = 0;
-        var pos = 0;
-        while (true) {
-            var next = matrix.indexOf('\n', pos);
-            if (next < 0) {
-                width = Math.max(width, matrix.length() - pos);
-                return (width + 1) / 2;
-            } else {
-                width = Math.max(width, next - pos);
-                pos = next + 1;
-            }
+        for (String line : matrix) {
+            width = Math.max(width, (line.length() + 1) / 2);
         }
+        return width;
     }
 
     private static List<Color> threeColors(String str) {
@@ -124,16 +124,18 @@ public class Font {
         return result;
     }
 
-    private String readResource(String name) throws IOException {
+    private List<String> readResource(String name) throws IOException {
         try (var in = getClass().getResourceAsStream("/" + name)) {
             if (in == null) {
                 throw new IOException("resource not found: " + name);
             }
-            return new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            try (var reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+                return reader.readAllLines();
+            }
         }
     }
 
-    public void add(char character, String matrix, int width, Color color, Color color2, Color color3) {
+    public void add(char character, List<String> matrix, int width, Color color, Color color2, Color color3) {
         try {
             dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2, color3));
         } catch (IllegalArgumentException e) {
