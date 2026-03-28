@@ -17,14 +17,9 @@ import java.util.Map;
 public class Font {
     private static final int HEIGHT = 8;
 
-    public static Font create() {
+    public static Font create(String name) {
         Font font = new Font();
-        font.addResource("basic");
-
-        //-- https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
-        // iday pictogramm
-        // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
-        font.addResource("weather");
+        font.addResource(name);
         return font;
     }
 

@@ -38,6 +38,10 @@ and from IntelliJ IDEA with VM options
 
       */5 5-8 * * * /home/mhm/wakeup.sh
 
+* Weather symbols
+    https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
+    https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
+
 
 ## TODO
 

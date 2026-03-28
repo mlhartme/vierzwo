@@ -1,3 +1,197 @@
+---
+. . .
+. . .
+. . .
+. . .
+. . .
+. . .
+. . .
+. . .
+
+--- 0 WHITE
+.
+x x x
+x   x
+x   x
+x   x
+x x x
+.
+.
+
+--- 1 WHITE
+.
+  x
+x x
+  x
+  x
+x x x
+.
+.
+
+--- 2 WHITE
+.
+x x x
+    x
+  x
+x
+x x x
+.
+.
+
+--- 3 WHITE
+.
+x x x
+    x
+  x x
+    x
+x x x
+.
+.
+
+--- 4 WHITE
+.
+x   x
+x   x
+x x x
+    x
+    x
+.
+.
+
+--- 5 WHITE
+.
+x x x
+x
+x x x
+    x
+x x x
+.
+.
+
+--- 6 WHITE
+.
+x x x
+x
+x x x
+x   x
+x x x
+.
+.
+
+--- 7 WHITE
+.
+x x x
+    x
+  x
+  x
+  x
+.
+.
+
+--- 8 WHITE
+.
+x x x
+x   x
+x x x
+x   x
+x x x
+.
+.
+
+--- 9 WHITE
+.
+x x x
+x   x
+x x x
+    x
+x x x
+.
+.
+--- h WHITE / h
+.
+x
+x
+x x
+x   x
+x   x
+.
+.
+
+--- m WHITE / m
+.
+.
+.
+x x   x
+x   x   x
+x   x   x
+.
+.
+
+--- d WHITE / degree
+x x
+x x
+.
+.
+.
+.
+.
+.
+--- c WHITE / celsius
+.
+. x x
+x
+x
+x
+  x x
+.
+.
+--- - WHITE / Bindestrich
+.
+.
+.
+x x x
+.
+.
+.
+.
+--- : WHITE / Doppelpunkt
+.
+.
+x
+.
+.
+x
+.
+.
+--- ! RED / unknown
+.
+  x
+  x
+  x
+.
+  x
+.
+.
+--- s YELLOW / small sun
+.
+.
+.
+x x
+x x
+.
+.
+.
+
+--- p BLUE / small rain
+.
+.
+.
+x x
+x x
+.
+.
+.
+
 --- A YELLOW / icon 1 - Sonnig
 
     x   x
