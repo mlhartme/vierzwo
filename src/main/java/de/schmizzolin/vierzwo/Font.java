@@ -179,10 +179,6 @@ public class Font {
             .
             """;
 
-    //-- https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
-    // TODO icon 6 - Nebel, rutschgefahr
-
-
     // unknown icon
     private static final String UNKNOWN = """
          .
@@ -231,6 +227,7 @@ public class Font {
 
         font.add('!', UNKNOWN, 7, Color.LIGHTGRAY);
 
+        //-- https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
         // iday pictogramm
         // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
         font.addResource("weather");

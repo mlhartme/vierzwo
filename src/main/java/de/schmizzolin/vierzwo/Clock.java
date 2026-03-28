@@ -43,7 +43,7 @@ public class Clock extends Text {
         var temperature = round(today.temperaturMin()) + "-" + round(today.temperatureMax()) + "dc";
         var rainSun  = "s" + today.sunshineHours() + "h p" + today.precipitationMM() + "mm";
 
-        setText(time, Character.toString((char) ('@' + today.icon())), temperature, rainSun);
+        setText(time, Character.toString((char) ('@' + 6 /*today.icon()*/)), temperature, rainSun);
     }
 
     private void updateWeather() throws IOException, InterruptedException {
