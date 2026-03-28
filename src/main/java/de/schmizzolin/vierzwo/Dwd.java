@@ -16,7 +16,7 @@ import java.util.Map;
 public class Dwd {
     public static void main(String[] args) throws IOException, InterruptedException {
         var wetter = new Dwd();
-        var result = wetter.stationOverviewExtendedDays(WeatherStation.KIEL_HOLTENAU);
+        var result = wetter.stationOverviewExtendedDays(WeatherStation.AACHEN);
         for (int i = 0; i < result.size(); i++) {
             var obj = (ObjectNode) result.get(i);
             System.out.println("day " + i + ": " + obj.get("icon").asInt());

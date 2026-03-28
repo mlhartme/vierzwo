@@ -5,7 +5,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** Variable width font with fixed height. Each character is defined as a matrix of dots. */
@@ -273,6 +276,19 @@ public class Font {
          +   +   +
          """;
 
+
+    // icon 18 - Regen und Sonne
+    private static final String LIGHT_RAIN_AND_SUN = """
+         .             *   *
+           x x x   x x x * *
+         x x x x x x x x x * *
+         x x x x x x x x x x * * *
+         x x x x x x x x x x
+                 +
+               +
+             +
+         """;
+
     // unknown icon
     private static final String UNKNOWN = """
          .
@@ -328,9 +344,11 @@ public class Font {
         /*  3 */ font.add('C', SUNNY_WITH_MORE_CLOUD, 11, Color.GRAY, Color.YELLOW);
         /*  4 */ font.add('D', CLOUDY, 11, Color.DARKGRAY, Color.GRAY);
         /*  5 */ font.add('E', FOG, 7, Color.LIGHTGRAY);
-        /*  7 */ font.add('G', LIGHT_RAIN, 11, Color.GRAY, Color.BLUE);
+        /*  7 */ font.add('G', LIGHT_RAIN, 11, Color.LIGHTGRAY, Color.BLUE);
         /*  8 */ font.add('H', RAIN, 11, Color.GRAY, Color.BLUE);
         /*  9 */ font.add('I', HEAVY_RAIN, 11, Color.GRAY, Color.BLUE);
+        /* 17 */ font.add('Q', LIGHT_RAIN_AND_SUN, 13, Color.LIGHTGRAY, Color.BLUE, Color.YELLOW);
+        font.addResource("font");
 
         font.add('s', SMALL_SUN, 2, Color.YELLOW);
         font.add('p', SMALL_RAIN, 2, Color.BLUE);
@@ -351,6 +369,97 @@ public class Font {
         return dots.get(dots.containsKey(c) ? c : '!');
     }
 
+    public void addResource(String name) {
+        String str;
+
+        try {
+            str = readResource(name);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+
+        while (true) {
+            if (!str.startsWith("---")) {
+                throw new IllegalArgumentException("invalid format: " + str);
+            }
+            var end = str.indexOf("---", 3);
+            if (end < 0) {
+                addOne(str.substring(3));
+                break;
+            } else {
+                addOne(str.substring(3, end));
+                str = str.substring(end);
+            }
+        }
+    }
+
+    private void addOne(String str) {
+        var idx = str.indexOf('\n');
+        if (idx < 0) {
+            throw new IllegalArgumentException("invalid format: " + str);
+        }
+        add(removeAfter(str.substring(0, idx), "/").trim(),
+                stripLeadingEmptyLines(str.substring(idx + 1)).stripTrailing() + '\n');
+    }
+
+    private static String stripLeadingEmptyLines(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != '\n') {
+                return str.substring(i);
+            }
+        }
+        throw new IllegalArgumentException("invalid format: " + str);
+    }
+
+    private static String removeAfter(String str, String c) {
+        var idx = str.indexOf(c);
+        return idx < 0 ? str : str.substring(0, idx);
+    }
+
+    private void add(String header, String matrix) {
+        if (header.charAt(1) != ' ') {
+            throw new IllegalArgumentException("invalid header: " + header);
+        }
+        var c = header.charAt(0);
+        var colors = threeColors(header.substring(2).trim());
+        add(c, matrix, matrixWidth(matrix), colors.get(0), colors.get(1), colors.get(2));
+    }
+
+    private static int matrixWidth(String matrix) {
+        var width = 0;
+        var pos = 0;
+        while (true) {
+            var next = matrix.indexOf('\n', pos);
+            if (next < 0) {
+                width = Math.max(width, matrix.length() - pos);
+                return (width + 1) / 2;
+            } else {
+                width = Math.max(width, next - pos);
+                pos = next + 1;
+            }
+        }
+    }
+
+    private static List<Color> threeColors(String str) {
+        List<Color> result = new ArrayList<>();
+        for (var name : str.split(" ")) {
+            result.add(Color.valueOf(name));
+        }
+        while (result.size() < 3) {
+            result.add(result.get(result.size() - 1));
+        }
+        return result;
+    }
+
+    private String readResource(String name) throws IOException {
+        try (var in = getClass().getResourceAsStream("/" + name)) {
+            if (in == null) {
+                throw new IOException("resource not found: " + name);
+            }
+            return new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        }
+    }
+
     public void add(char character, String matrix) {
         add(character, matrix, 3, Color.WHITE);
     }
@@ -359,7 +468,11 @@ public class Font {
         add(character, matrix, width, color, color);
     }
     public void add(char character, String matrix, int width, Color color, Color color2) {
-        dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2));
+        dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2, color2));
+    }
+
+    public void add(char character, String matrix, int width, Color color, Color color2, Color color3) {
+        dots.put(character, Matrix.create(width, HEIGHT, matrix, color, color2, color3));
     }
 
     public void add(char character, Matrix matrix) {

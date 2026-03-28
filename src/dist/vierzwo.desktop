@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Vierzwo
+Exec=env VIERZWO_JAVA=/home/mhm/Packages/jdk-25.0.2+10/bin/java JAVA_FX_HOME=/home/mhm/Packages/javafx-sdk-25.0.2 /home/mhm/vierzwo
+Terminal=false

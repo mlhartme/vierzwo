@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.util.List;
 
 // Beispiel für eine eigene Pane mit automatischer Aktualisierung
