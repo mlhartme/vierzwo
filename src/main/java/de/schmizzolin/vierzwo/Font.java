@@ -15,125 +15,14 @@ import java.util.Map;
 public class Font {
     private static final int HEIGHT = 8;
 
-    private static final String HOUR = """
-            .
-            x
-            x
-            x x
-            x   x
-            x   x
-            .
-            .
-            """;
-    private static final String EM = """
-            .
-            .
-            .
-            x x   x
-            x   x   x
-            x   x   x
-            .
-            .
-            """;
-    private static final String DEGREE = """
-            x x
-            x x
-            .
-            .
-            .
-            .
-            .
-            .
-            """;
-    private static final String CELSIUS = """
-            .
-            . x x
-            x
-            x
-            x
-              x x
-            .
-            .
-            """;
-    private static final String TO = """
-            .
-            .
-            .
-            x x x
-            .
-            .
-            .
-            .
-            """;
-
-    private static final String COLON = """
-            .
-            .
-            x
-            .
-            .
-            x
-            .
-            .
-            """;
-
-    // unknown icon
-    private static final String UNKNOWN = """
-         .
-           x
-           x
-           x
-         .
-           x
-         .
-         .
-         """;
-
-
-    private static final String SMALL_SUN = """
-            .
-            .
-            .
-            x x
-            x x
-            .
-            .
-            .
-            """;
-
-    private static final String SMALL_RAIN = """
-            .
-            .
-            .
-            x x
-            x x
-            .
-            .
-            .
-            """;
-
     public static Font create() {
         Font font = new Font();
         font.addResource("basic");
-
-        font.add(':', COLON, 1, Color.WHITE);
-
-        font.add('h', HOUR, 3, Color.WHITE);
-        font.add('m', EM, 5, Color.WHITE);
-        font.add('d', DEGREE, 2, Color.WHITE);
-        font.add('c', CELSIUS, 3, Color.WHITE);
-        font.add('-', TO, 3, Color.WHITE);
-
-        font.add('!', UNKNOWN, 7, Color.LIGHTGRAY);
 
         //-- https://listed.to/@DieSieben/7851/api-des-deutschen-wetterdienstes at the end
         // iday pictogramm
         // https://content.meteoblue.com/de/forschung-bildung/spezifikationen/standards/symbole-und-piktogramme
         font.addResource("weather");
-
-        font.add('s', SMALL_SUN, 2, Color.YELLOW);
-        font.add('p', SMALL_RAIN, 2, Color.BLUE);
-
         return font;
     }
 
