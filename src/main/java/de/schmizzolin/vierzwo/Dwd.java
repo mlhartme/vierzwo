@@ -14,7 +14,7 @@ import java.util.Map;
 
 // https://dwd.api.bund.dev
 public class Dwd {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    static void main() throws IOException, InterruptedException {
         var wetter = new Dwd();
         var result = wetter.stationOverviewExtendedDays(WeatherStation.AACHEN);
         for (int i = 0; i < result.size(); i++) {
