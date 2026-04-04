@@ -52,8 +52,14 @@ public class Vierzwo extends Text {
 
     private void updateWeather() throws IOException, InterruptedException {
         if (todayUpdate.isBefore(OffsetDateTime.now().minusHours(1))) {
-            today = new Dwd().stationOverviewExtendedToday(WeatherStation.AACHEN);
-            todayUpdate = OffsetDateTime.now();
+            try {
+                today = new Dwd().stationOverviewExtendedToday(WeatherStation.AACHEN);
+                todayUpdate = OffsetDateTime.now();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                today = new Dwd.Today("1970-01-01", 0, 0, 0, 0, 99);
+                todayUpdate = OffsetDateTime.now().minusMinutes(58);
+            }
             currentTemperatur = new BrightSky().temperatur(50.767897, 6.121299);
             System.out.println("icon: " + today.icon());
         }

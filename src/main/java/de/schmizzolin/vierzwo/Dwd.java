@@ -27,7 +27,7 @@ public class Dwd {
     private final HttpClient client;
 
     public Dwd() {
-        this.baseUri = "https://dwd.api.proxy.bund.dev/v30/";
+        this.baseUri = "https://app-prod-ws.warnwetter.de/v30/";
         this.client = HttpClient.newHttpClient();
     }
 
