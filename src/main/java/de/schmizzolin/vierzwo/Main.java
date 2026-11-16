@@ -2,11 +2,12 @@ package de.schmizzolin.vierzwo;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import java.awt.Dimension;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,28 +15,31 @@ public class Main {
     private static final Dimension WINDOW_SIZE = new Dimension(360, 120);
 
     private final JFrame frame;
-    private final GraphicsDevice screen;
+    private final Rectangle screenBounds;
+    private Rectangle windowedBounds;
     private boolean fullScreen;
 
     private Main() {
         frame = new JFrame("Vierzwo");
-        screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        screenBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice().getDefaultConfiguration().getBounds();
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setAlwaysOnTop(true);
         frame.setUndecorated(true);
-        frame.setContentPane(new Vierzwo());
+        var content = new Vierzwo();
+        frame.setContentPane(content);
         frame.setSize(WINDOW_SIZE);
         frame.setLocationRelativeTo(null);
 
-        contextMenu();
-        movable();
+        contextMenu(content);
+        movable(content);
 
         frame.setVisible(true);
         switchFullScreen();
     }
 
-    private void contextMenu() {
+    private void contextMenu(JPanel content) {
         var menu = new JPopupMenu();
         var title = new JMenuItem("Vierzwo");
         title.setEnabled(false);
@@ -50,42 +54,27 @@ public class Main {
         quit.addActionListener(e -> frame.dispose());
         menu.add(quit);
 
-        frame.getContentPane().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                showPopup(e);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                showPopup(e);
-            }
-
+        content.setComponentPopupMenu(menu);
+        content.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
                     switchFullScreen();
                 }
             }
-
-            private void showPopup(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    menu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
         });
     }
 
-    private void movable() {
+    private void movable(JPanel content) {
         var dragOffset = new int[2];
-        frame.getContentPane().addMouseListener(new MouseAdapter() {
+        content.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 dragOffset[0] = e.getXOnScreen() - frame.getX();
                 dragOffset[1] = e.getYOnScreen() - frame.getY();
             }
         });
-        frame.getContentPane().addMouseMotionListener(new MouseAdapter() {
+        content.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (!fullScreen) {
@@ -98,12 +87,10 @@ public class Main {
     private void switchFullScreen() {
         fullScreen = !fullScreen;
         if (fullScreen) {
-            frame.setBounds(screen.getDefaultConfiguration().getBounds());
-            screen.setFullScreenWindow(frame);
+            windowedBounds = frame.getBounds();
+            frame.setBounds(screenBounds);
         } else {
-            screen.setFullScreenWindow(null);
-            frame.setSize(WINDOW_SIZE);
-            frame.setLocationRelativeTo(null);
+            frame.setBounds(windowedBounds);
         }
     }
 
