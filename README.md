@@ -2,12 +2,6 @@
 
 Display answers.
 
-## Setup
-
-* Download JavaFX SDK 21+ from [Gluon](https://gluonhq.com/products/javafx/)
-* unpack to /some/path/javafx-sdk
-* export JAVA_FX_HOME=/some/path/javafx-sdk
-
 ## Build
 
 with
@@ -20,9 +14,7 @@ from shell with
 
     ./target/vierzwo 
 
-and from IntelliJ IDEA with VM options
-
-    --module-path $JAVA_FX_HOME/lib --add-modules javafx.controls,javafx.fxml
+and from IntelliJ IDEA by running `de.schmizzolin.vierzwo.Main`.
 
 ## Know how
 

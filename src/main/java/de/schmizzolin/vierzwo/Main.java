@@ -1,76 +1,113 @@
 package de.schmizzolin.vierzwo;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import java.io.IOException;
+public class Main {
+    private static final Dimension WINDOW_SIZE = new Dimension(360, 120);
 
-public class Main extends Application {
-    @Override
-    public void start(Stage stage) throws IOException, InterruptedException {
-        StackPane clock = new Vierzwo();
+    private final JFrame frame;
+    private final GraphicsDevice screen;
+    private boolean fullScreen;
 
-        Scene scene = new Scene(clock, 360, 120);
-        stage.setTitle("Vierzwo");
-        scene.setFill(Color.BLACK);
-        stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
-        stage.setFullScreen(true);
+    private Main() {
+        frame = new JFrame("Vierzwo");
+        screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
-        contextMenu(scene);
-        movable(scene);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setAlwaysOnTop(true);
+        frame.setUndecorated(true);
+        frame.setContentPane(new Vierzwo());
+        frame.setSize(WINDOW_SIZE);
+        frame.setLocationRelativeTo(null);
 
-        stage.show();
+        contextMenu();
+        movable();
+
+        frame.setVisible(true);
+        switchFullScreen();
     }
 
-    /* contextMenu that show up "onClicked". I avoid  "onContextMenuRequested" and the regular menur bar
-       because they behave differently on macOS and on touch screens  */
-    private void contextMenu(Scene scene) {
-        var menu = new ContextMenu();
-        var title = new MenuItem("Vierzwo");
-        title.setDisable(true);
+    private void contextMenu() {
+        var menu = new JPopupMenu();
+        var title = new JMenuItem("Vierzwo");
+        title.setEnabled(false);
+        menu.add(title);
+        menu.addSeparator();
 
-        var fullscreen = new MenuItem("Fullscreen");
-        fullscreen.setOnAction(e -> {
-            switchFullScreen(scene);
-        });
-        scene.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                switchFullScreen(scene);
+        var fullscreen = new JMenuItem("Fullscreen");
+        fullscreen.addActionListener(e -> switchFullScreen());
+        menu.add(fullscreen);
+
+        var quit = new JMenuItem("Quit");
+        quit.addActionListener(e -> frame.dispose());
+        menu.add(quit);
+
+        frame.getContentPane().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                    switchFullScreen();
+                }
+            }
+
+            private void showPopup(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
             }
         });
-
-        var quit = new MenuItem("Quit");
-        quit.setOnAction(e -> Platform.exit());
-        menu.getItems().addAll(title, new SeparatorMenuItem(), fullscreen, quit);
-        scene.setOnContextMenuRequested(e -> menu.show(scene.getRoot(), e.getScreenX(), e.getScreenY()));
     }
 
-    private void switchFullScreen(Scene scene) {
-        Stage s = (Stage) scene.getWindow();
-        s.setFullScreen(!s.isFullScreen());
+    private void movable() {
+        var dragOffset = new int[2];
+        frame.getContentPane().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                dragOffset[0] = e.getXOnScreen() - frame.getX();
+                dragOffset[1] = e.getYOnScreen() - frame.getY();
+            }
+        });
+        frame.getContentPane().addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (!fullScreen) {
+                    frame.setLocation(e.getXOnScreen() - dragOffset[0], e.getYOnScreen() - dragOffset[1]);
+                }
+            }
+        });
     }
 
-    private void movable(Scene scene) {
-        final double[] dragDelta = new double[2];
-        scene.setOnMousePressed(e -> {
-            dragDelta[0] = scene.getWindow().getX() - e.getScreenX();
-            dragDelta[1] = scene.getWindow().getY() - e.getScreenY();
-        });
-        scene.setOnMouseDragged(e -> {
-            scene.getWindow().setX(e.getScreenX() + dragDelta[0]);
-            scene.getWindow().setY(e.getScreenY() + dragDelta[1]);
-        });
+    private void switchFullScreen() {
+        fullScreen = !fullScreen;
+        if (fullScreen) {
+            frame.setBounds(screen.getDefaultConfiguration().getBounds());
+            screen.setFullScreenWindow(frame);
+        } else {
+            screen.setFullScreenWindow(null);
+            frame.setSize(WINDOW_SIZE);
+            frame.setLocationRelativeTo(null);
+        }
     }
 
     public static void main(String[] args) {
-        launch(args);
+        SwingUtilities.invokeLater(Main::new);
     }
 }

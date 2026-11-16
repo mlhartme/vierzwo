@@ -1,10 +1,9 @@
 package de.schmizzolin.vierzwo;
 
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
-
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -111,12 +110,26 @@ public class Font {
     private static List<Color> threeColors(String str) {
         List<Color> result = new ArrayList<>();
         for (var name : str.split(" ")) {
-            result.add(Color.valueOf(name));
+            result.add(color(name));
         }
         while (result.size() < 3) {
             result.add(result.get(result.size() - 1));
         }
         return result;
+    }
+
+    private static Color color(String name) {
+        return switch (name) {
+            case "BLACK" -> Color.BLACK;
+            case "WHITE" -> Color.WHITE;
+            case "RED" -> Color.RED;
+            case "YELLOW" -> Color.YELLOW;
+            case "LIGHTGRAY" -> new Color(0xD3D3D3);
+            case "DARKGRAY" -> new Color(0xA9A9A9);
+            case "GRAY" -> Color.GRAY;
+            case "BLUE" -> Color.BLUE;
+            default -> throw new IllegalArgumentException("unknown color: " + name);
+        };
     }
 
     private List<String> readResource(String name) throws IOException {
@@ -164,27 +177,24 @@ public class Font {
         return text.length * HEIGHT;
     }
 
-    public Group render(int dotWidth, String... text) {
+    public void render(Graphics2D dest, int dotWidth, int x, int y, String... text) {
         var maxDots = width(text);
-        var result = new Group();
-        var yOfs = 0;
         for (var str : text) {
-            var xOfs = (maxDots - width(str)) / 2 * dotWidth;
+            var xOfs = x + (maxDots - width(str)) / 2 * dotWidth;
             for (int i = 0; i < str.length(); i++) {
                 var character = str.charAt(i);
                 var matrix = get(character);
                 if (matrix == null) {
                     throw new IllegalArgumentException("unknown character: " + character);
                 }
-                renderCharacter(result, xOfs, yOfs, dotWidth, matrix);
+                renderCharacter(dest, xOfs, y, dotWidth, matrix);
                 xOfs += (matrix.width() + 1) * dotWidth;
             }
-            yOfs += HEIGHT * dotWidth;
+            y += HEIGHT * dotWidth;
         }
-        return result;
     }
 
-    private void renderCharacter(Group dest, int xOfs, int yOfs, int dotWidth, Matrix matrix) {
+    private void renderCharacter(Graphics2D dest, int xOfs, int yOfs, int dotWidth, Matrix matrix) {
         var dotSpace = Math.max(1, dotWidth / 32);
         var dotArc = Math.max(1, dotWidth / 6);
 
@@ -192,14 +202,13 @@ public class Font {
             for (int x = 0; x < matrix.width(); x++) {
                 var color = matrix.get(x, y);
                 if (color != null) {
-                    Rectangle rect = new Rectangle(xOfs + x * dotWidth, yOfs + y * dotWidth, dotWidth, dotWidth);
-                    rect.setFill(color);
-                    rect.setStrokeWidth(dotSpace);
-                    rect.setStrokeType(StrokeType.INSIDE);
-                    rect.setStroke(Color.BLACK);
-                    rect.setArcWidth(dotArc);
-                    rect.setArcHeight(dotArc);
-                    dest.getChildren().add(rect);
+                    var rect = new RoundRectangle2D.Double(
+                            xOfs + x * dotWidth, yOfs + y * dotWidth, dotWidth, dotWidth, dotArc, dotArc);
+                    dest.setColor(color);
+                    dest.fill(rect);
+                    dest.setColor(Color.BLACK);
+                    dest.setStroke(new BasicStroke(dotSpace));
+                    dest.draw(rect);
                 }
             }
         }

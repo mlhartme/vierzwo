@@ -1,9 +1,6 @@
 package de.schmizzolin.vierzwo;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-
+import javax.swing.Timer;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -14,22 +11,20 @@ public class Vierzwo extends Text {
     private Dwd.Today today;
     private int currentTemperatur;
 
-    public Vierzwo(){
+    public Vierzwo() {
         super();
 
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0), e -> {
-                    try {
-                        updateTime();
-                    } catch (IOException | InterruptedException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }),
-                new KeyFrame(Duration.seconds(1))
-        );
-        timeline.setCycleCount(javafx.animation.Animation.INDEFINITE);
-        timeline.play();
         todayUpdate = OffsetDateTime.now().minusHours(100);
+
+        var timer = new Timer(1000, e -> {
+            try {
+                updateTime();
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        timer.setInitialDelay(0);
+        timer.start();
     }
 
     private static int round(int temp) {
